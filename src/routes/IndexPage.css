@@ -27,3 +27,16 @@
 .list code {
   background: #f7f7f7;
 }
+
+.customer{
+  padding: 1em;
+}
+
+.title{
+  line-height: 2em;
+}
+
+.btns{
+  color:red;
+  margin-bottom: 5em;
+}
