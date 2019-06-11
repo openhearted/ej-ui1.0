@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './IndexPage.css';
-//首页
+//首页111
 function IndexPage() {
   return (
     <div className={styles.normal}>
