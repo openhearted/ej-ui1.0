@@ -3,7 +3,7 @@ import styles from './IndexPage.css'
 import {Button, Table} from 'antd'
 import axios from '../utils/axios'
 
-class CategoryPage extends React.Component{
+class Order_linePage extends React.Component{
     
 }
-export default CategoryPage;
+export default Order_linePage;
