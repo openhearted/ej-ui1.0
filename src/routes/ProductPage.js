@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './IndexPage.css'
-import {Button, Table} from 'antd'
+import {Modal,Button,Table,message} from 'antd'
 import axios from '../utils/axios'
 
 class ProductPage extends React.Component {
@@ -168,13 +168,6 @@ class ProductPage extends React.Component {
             rowSelection={rowSelection}
             columns={columns}
             dataSource={this.state.list}/>
-  
-          <ProductForm
-            initData={this.state.product}
-            wrappedComponentRef={this.saveFormRef}
-            visible={this.state.visible}
-            onCancel={this.handleCancel}
-            onCreate={this.handleCreate}/>
         </div>
       )
     }
