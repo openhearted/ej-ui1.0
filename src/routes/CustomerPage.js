@@ -37,7 +37,7 @@ class CustomerPage extends React.Component {
   handleBatchDelete(){
     Modal.confirm({
       title: '你确认删除这些记录吗?',
-      content: '一旦确认将无法回复',
+      content: '一旦确认将无法恢复',
       okText: '确认',
       okType: 'danger',
       cancelText: '取消',
@@ -55,7 +55,7 @@ class CustomerPage extends React.Component {
     //传递到后台
     Modal.confirm({
       title: '你确认删除这条记录吗?',
-      content: '一旦确认将无法回复',
+      content: '一旦确认将无法恢复',
       okText: '确认',
       okType: 'danger',
       cancelText: '取消',
