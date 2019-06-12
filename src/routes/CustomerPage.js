@@ -76,16 +76,17 @@ class CustomerPage extends React.Component {
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // 变量定义
-    let columns = [{
-      title:'姓名',
-      dataIndex:'realname'
-    },{
-      title:'手机号',
-      dataIndex:'telephone'
-    },{
-      title:'状态',
-      dataIndex:'status'
-    },{
+    let columns = [
+      {
+        title:'姓名',
+        dataIndex:'realname'
+      },{
+        title:'手机号',
+        dataIndex:'telephone'
+      },{
+        title:'状态',
+        dataIndex:'status'
+      },{
       title:'操作',
       width:200,
       align:"center",

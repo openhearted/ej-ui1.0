@@ -9,9 +9,9 @@ axios.defaults.headers["Content-Type"]= "application/x-www-form-urlencoded";
 // 2. 拦截器配置 
 axios.interceptors.request.use((config)=>{
   if(config.method === "post"){
-    config.data = qs.stringify(config.data,{  arrayFormat :' indices ' } )
-    
+    config.data = qs.stringify(config.data,{  arrayFormat : 'repeat' }) 
   }
+  
   return config;
 })
 axios.interceptors.response.use((response)=>{
