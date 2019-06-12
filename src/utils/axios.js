@@ -11,7 +11,6 @@ axios.interceptors.request.use((config)=>{
   if(config.method === "post"){
     config.data = qs.stringify(config.data,{  arrayFormat : 'repeat' }) 
   }
-  
   return config;
 })
 axios.interceptors.response.use((response)=>{
