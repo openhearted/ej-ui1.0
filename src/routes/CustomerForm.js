@@ -4,7 +4,6 @@ import {Form,Modal,Input,Radio} from 'antd'
 class CustomerForm extends React.Component {
 
   render(){
-
     const formLayout = {
         labelCol: {
           xs: { span: 24 },
