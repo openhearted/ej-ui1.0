@@ -23,7 +23,7 @@ class WaiterPage extends React.Component{
       // 重载数据
       reloadData(){
         this.setState({loading:true});
-        axios.get("/waiter/findAll")
+        axios.get("http://129.211.69.98:8888/waiter/findAllWaiter")
         .then((result)=>{
           // 将查询数据更新到state中
           this.setState({list:result.data})

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './IndexPage.css'
 import {Modal,Button, Table,message} from 'antd'
 import axios from '../utils/axios'
-//import CategoryForm from './CategoryForm'
+import CategoryForm from './CategoryForm'
 
 class CategoryPage extends React.Component{
     constructor(){
@@ -23,7 +23,7 @@ class CategoryPage extends React.Component{
       // 重载数据
       reloadData(){
         this.setState({loading:true});
-        axios.get("http://129.211.69.98:8888GET/category/findAllCategory")
+        axios.get("http://129.211.69.98:8888/category/findAllCategory")
         .then((result)=>{
           // 将查询数据更新到state中
           this.setState({list:result.data})
@@ -173,6 +173,12 @@ class CategoryPage extends React.Component{
               rowSelection={rowSelection}
               columns={columns}
               dataSource={this.state.list}/>
+            <CategoryForm
+              initData={this.state.category}
+              wrappedComponentRef={this.saveFormRef}
+              visible={this.state.visible}
+              onCancel={this.handleCancel}
+              onCreate={this.handleCreate}/>
           </div>
         )
     }
