@@ -32,6 +32,30 @@
   padding: 1em;
 }
 
+.waiter{
+  padding: 1em;
+}
+
+.address{
+  padding: 1em;
+}
+
+.pruduct{
+  padding: 1em;
+}
+
+.order{
+  padding: 1em;
+}
+
+.order_line{
+  padding: 1em;
+}
+
+.comment{
+  padding: 1em;
+}
+
 .title{
   line-height: 2em;
 }

@@ -18,6 +18,11 @@ axios.interceptors.response.use((response)=>{
   response.status = data.status;
   response.statusText = data.message;
   response.data = data.data;
+  //判断状态码，如果为200，表示成功，如果不为200，提示错误信息！
+  if(data.status !==200){
+    message.error(data.message)
+    return Promise.reject(response);
+  }
   return response;
 },(error)=>{
   message.error("服务端异常")

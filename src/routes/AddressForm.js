@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form,Modal,Input,Radio} from 'antd'
 
-class CustomerForm extends React.Component {
+class AddressForm extends React.Component {
 
   render(){
 
@@ -19,8 +19,6 @@ class CustomerForm extends React.Component {
     const { visible, onCancel, onCreate, form } = this.props;
     const { getFieldDecorator } = form;
     getFieldDecorator('id');
-    getFieldDecorator('status');
-    getFieldDecorator('photo');
     return (
       <Modal
           visible={visible}
@@ -30,20 +28,25 @@ class CustomerForm extends React.Component {
           onOk={onCreate}
         >
           <Form layout="vertical" {...formLayout}>
-            <Form.Item label="姓名" >
-              {getFieldDecorator('realname', {
-                rules: [{ required: true, message: '请输入姓名!' }],
+            <Form.Item label="省" >
+              {getFieldDecorator('province', {
+                rules: [{ required: true, message: '请输入省份!' }],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="市">
+              {getFieldDecorator('city', {
+                rules: [{ required: true, message: '请输入市!' }],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="国家">
+              {getFieldDecorator('area', {
+                rules: [{ required: true, message: '请输入国家!' }],
               })(<Input />)}
             </Form.Item>
             <Form.Item label="手机号">
               {getFieldDecorator('telephone', {
                 rules: [{ required: true, message: '请输入手机号!' }],
               })(<Input />)}
-            </Form.Item>
-            <Form.Item label="密码">
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请输入密码!' }],
-              })(<Input.Password />)}
             </Form.Item>
           </Form>
         </Modal>
@@ -63,4 +66,4 @@ const mapPropsToFields = (props)=>{
 
 export default Form.create({
   mapPropsToFields
-})(CustomerForm);
+})(AddressForm);
