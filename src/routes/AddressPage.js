@@ -20,7 +20,7 @@ class AddressPage extends React.Component{
     }
     reloadData(){
         this.setState({loading:true});
-        axios.get("/address/findAll")
+        axios.get("http://129.211.69.98:8888/address/findAll")
         .then((result)=>{
             this.setState({list:result.data})
         })
@@ -32,6 +32,9 @@ class AddressPage extends React.Component{
         Modal.confirm({
             title: '确定删除这些记录吗?',
             content: '一旦删除数据将无法恢复',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
             onOk:() => {
                 axios.post("/address/batchDelete",{ids:this.state.ids})
                 .then((result)=>{
@@ -43,25 +46,28 @@ class AddressPage extends React.Component{
         })
     }
     // 单个删除
-  handleDelete(id){
-    Modal.confirm({
-      title: '确定删除这条记录吗?',
-      content: '一旦删除数据将无法恢复',
-      onOk:() => {
-        // 删除操作
-        axios.get("/address/deleteById",{
-          params:{
-            id:id
-          }
-        })
-        .then((result)=>{
-          // 删除成功后提醒消息，并且重载数据
-          message.success(result.statusText);
-          this.reloadData();
-        })
-      }
-    });
-  }
+    handleDelete(id){
+        Modal.confirm({
+            title: '确定删除这条记录吗?',
+            content: '一旦删除数据将无法恢复',
+            okText: '确定',
+            okType: 'danger',
+            cancelText: '取消',
+            onOk:() => {
+              // 删除操作
+              axios.get("http://129.211.69.98:8888/address/deleteById",{
+                params:{
+                  id:id
+                }
+              })
+              .then((result)=>{
+                // 删除成功后提醒消息，并且重载数据
+                message.success(result.statusText);
+                this.reloadData();
+                })
+            }
+        });
+    }
   // 取消按钮的事件处理函数
   handleCancel = () => {
     this.setState({ visible: false });
@@ -74,7 +80,7 @@ class AddressPage extends React.Component{
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("/address/saveOrUpdate",values)
+      axios.post("http://129.211.69.98:8888/address/saveOrUpdate",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单
@@ -140,30 +146,30 @@ class AddressPage extends React.Component{
       };
       // 返回结果 jsx(js + xml)
     return (
-        <div className={styles.address}>
-          <div className={styles.title}>地址管理</div>
-          <div className={styles.btns}>
-            <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
-            <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-            <Button type="link">导出</Button>
-          </div>
-          <Table 
-            bordered
-            rowKey="id"
-            size="small"
-            loading={this.state.loading}
-            rowSelection={rowSelection}
-            columns={columns}
-            dataSource={this.state.list}/>
-  
-          <AddressForm
-            initData={this.state.address}
-            wrappedComponentRef={this.saveFormRef}
-            visible={this.state.visible}
-            onCancel={this.handleCancel}
-            onCreate={this.handleCreate}/>
+      <div className={styles.address}>
+        <div className={styles.title}>地址管理</div>
+        <div className={styles.btns}>
+          <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
+          <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
+          <Button type="link">导出</Button>
         </div>
-      )
-    }
+        <Table 
+          bordered
+          rowKey="id"
+          size="small"
+          loading={this.state.loading}
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={this.state.list}/>
+
+        <AddressForm
+          initData={this.state.address}
+          wrappedComponentRef={this.saveFormRef}
+          visible={this.state.visible}
+          onCancel={this.handleCancel}
+          onCreate={this.handleCreate}/>
+      </div>
+    )
+  }
 }
 export default AddressPage;

@@ -22,20 +22,20 @@ class AddressForm extends React.Component {
     return (
       <Modal
           visible={visible}
-          title="添加顾客信息"
+          title="添加地址信息"
           okText="提交"
           onCancel={onCancel}
           onOk={onCreate}
         >
           <Form layout="vertical" {...formLayout}>
-            <Form.Item label="省" >
+            <Form.Item label="省份" >
               {getFieldDecorator('province', {
                 rules: [{ required: true, message: '请输入省份!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="市">
+            <Form.Item label="城市">
               {getFieldDecorator('city', {
-                rules: [{ required: true, message: '请输入市!' }],
+                rules: [{ required: true, message: '请输入城市!' }],
               })(<Input />)}
             </Form.Item>
             <Form.Item label="国家">

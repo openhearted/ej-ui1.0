@@ -43,6 +43,9 @@ class ProductPage extends React.Component {
     Modal.confirm({
       title: '确定删除这些商品吗?',
       content: '一旦删除数据将无法恢复',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
       onOk:() => {
         axios.post("http://129.211.69.98:8888/product/batchDelete",{ids:this.state.ids})
         .then((result)=>{
@@ -59,6 +62,9 @@ class ProductPage extends React.Component {
     Modal.confirm({
       title: '确定删除这件商品吗?',
       content: '一旦删除数据将无法恢复',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
       onOk:() => {
         // 删除操作
         axios.get("http://129.211.69.98:8888/product/deleteById",{

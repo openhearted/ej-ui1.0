@@ -35,13 +35,13 @@ class WaiterPage extends React.Component{
       //批量删除
       handleBatchDelete(){
         Modal.confirm({
-          title: '你确认删除这些记录吗?',
-          content: '一旦确认将无法恢复',
-          okText: '确认',
+          title: '确定删除这些记录吗?',
+          content: '一旦删除数据将无法恢复',
+          okText: '确定',
           okType: 'danger',
           cancelText: '取消',
           onOk:()=>{
-            axios.post("/waiter/batchDelete",{ids:this.state.ids})
+            axios.post("http://129.211.69.98:8888/waiter/batchDelete",{ids:this.state.ids})
             .then((result)=>{
               message.success(result.statusText)
               this.reloadData()
@@ -53,13 +53,13 @@ class WaiterPage extends React.Component{
       handleDelete(id){
         //传递到后台
         Modal.confirm({
-          title: '你确认删除这条记录吗?',
-          content: '一旦确认将无法恢复',
-          okText: '确认',
+          title: '确定删除这条记录吗?',
+          content: '一旦删除数据将无法恢复',
+          okText: '确定',
           okType: 'danger',
           cancelText: '取消',
           onOk:()=>{
-            axios.get("/waiter/deleteById",{
+            axios.get("http://129.211.69.98:8888/waiter/deleteById",{
               params:{
                 id:id
               }
@@ -84,7 +84,7 @@ class WaiterPage extends React.Component{
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("/waiter/saveOrUpdate",values)
+      axios.post("http://129.211.69.98:8888/waiter/saveOrUpdate",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单

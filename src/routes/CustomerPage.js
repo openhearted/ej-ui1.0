@@ -43,6 +43,9 @@ class CustomerPage extends React.Component {
     Modal.confirm({
       title: '确定删除这些记录吗?',
       content: '一旦删除数据将无法恢复',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
       onOk:() => {
         axios.post("http://129.211.69.98:8888/customer/batchDelete",{ids:this.state.ids})
         .then((result)=>{
@@ -59,6 +62,9 @@ class CustomerPage extends React.Component {
     Modal.confirm({
       title: '确定删除这条记录吗?',
       content: '一旦删除数据将无法恢复',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
       onOk:() => {
         // 删除操作
         axios.get("http://129.211.69.98:8888/customer/deleteById",{
