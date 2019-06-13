@@ -29,7 +29,7 @@ class ProductPage extends React.Component {
   // 重载数据
   reloadData(){
     this.setState({loading:true});
-    axios.get("/product/findAll")
+    axios.get("http://129.211.69.98:8888/product/findAll")
     .then((result)=>{
       // 将查询数据更新到state中
       this.setState({list:result.data})
@@ -44,7 +44,7 @@ class ProductPage extends React.Component {
       title: '确定删除这些商品吗?',
       content: '一旦删除数据将无法恢复',
       onOk:() => {
-        axios.post("/product/batchDelete",{ids:this.state.ids})
+        axios.post("http://129.211.69.98:8888/product/batchDelete",{ids:this.state.ids})
         .then((result)=>{
           //批量删除后重载数据
           message.success(result.statusText)
@@ -61,7 +61,7 @@ class ProductPage extends React.Component {
       content: '一旦删除数据将无法恢复',
       onOk:() => {
         // 删除操作
-        axios.get("/product/deleteById",{
+        axios.get("http://129.211.69.98:8888/product/deleteById",{
           params:{
             id:id
           }
@@ -87,7 +87,7 @@ class ProductPage extends React.Component {
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("/product/saveOrUpdate",values)
+      axios.post("http://129.211.69.98:8888/product/saveOrUpdate",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单
