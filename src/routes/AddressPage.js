@@ -119,18 +119,23 @@ class AddressPage extends React.Component{
     // 变量定义
     let columns = [{
       title:'省份',
+      align:"center",
       dataIndex:'province'
     },{
       title:'城市',
+      align:"center",
       dataIndex:'city'
     },{
       title:'地区',
+      align:"center",
       dataIndex:'area'
     },{
       title:'地址',
+      align:"center",
       dataIndex:'address'
     },{
       title:'手机号',
+      align:"center",
       dataIndex:'telephone'
     },{
       title:'操作',

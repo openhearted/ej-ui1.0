@@ -126,10 +126,12 @@ class CategoryPage extends React.Component{
         // 变量定义
         let columns = [{
           title:'分类名称',
-            dataIndex:'name'
+          align:"center",
+          dataIndex:'name'
           },{
           title:'数量',
-            dataIndex:'num'
+          align:"center",
+          dataIndex:'num'
           },{
           title:'操作',
           width:120,

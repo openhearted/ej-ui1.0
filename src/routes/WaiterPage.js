@@ -120,69 +120,74 @@ class WaiterPage extends React.Component{
 
     render(){
         let columns = [{
-                title:'电话',
-                dataIndex:'telephone'
-            },{
-                title:'密码',
-                dataIndex:'password'
-            },{
-                title:'姓名',
-                dataIndex:'realname'
-            },{
-                title:'工号',
-                dataIndex:'idcard'
-            },{
-                title:'状态',
-                dataIndex:'status'
-            },{
-                title:'操作',
-                width:200,
-                align:"center",
-                render:(text,record)=>{
-                    return (
-                    <div>
-                        <Button type='link' size="small" onClick = {this.handleDelete.bind(this,record.id)}>删除</Button>
-                        <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
-                    </div>
-                    )
-                }
-            }]
-            const rowSelection = {
-                onChange: (selectedRowKeys, selectedRows) => {
-                  //当用户操作复选按钮的时候，将值获取并且保存到state中
-                  this.setState({
-                    ids:selectedRowKeys
-                  })
-                },
-                getCheckboxProps: record => ({
-                  disabled: record.name === 'Disabled User', // Column configuration not to be checked
-                  name: record.name,
-                }),
-              };
-              return (
-                <div className={styles.waiter}>
-                  <div className={styles.title}>服务员信息管理</div>
-                  <div className={styles.btns}>
-                    <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
-                    <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-                    <Button type="link">导出</Button>
-                  </div>
-                  <Table 
-                    bordered
-                    rowKey="id"
-                    size="small"
-                    loading={this.state.loading}
-                    rowSelection={rowSelection}
-                    columns={columns}
-                    dataSource={this.state.list}/>
-                  <WaiterForm
-                    initData={this.state.waiter}
-                    wrappedComponentRef={this.saveFormRef}
-                    visible={this.state.visible}
-                    onCancel={this.handleCancel}
-                    onCreate={this.handleCreate}/>
+            title:'电话',
+            align:"center",
+            dataIndex:'telephone'
+        },{
+            title:'密码',
+            align:"center",
+            dataIndex:'password'
+        },{
+            title:'姓名',
+            align:"center",
+            dataIndex:'realname'
+        },{
+            title:'工号',
+            align:"center",
+            dataIndex:'idcard'
+        },{
+            title:'状态',
+            align:"center",
+            dataIndex:'status'
+        },{
+            title:'操作',
+            width:200,
+            align:"center",
+            render:(text,record)=>{
+                return (
+                <div>
+                    <Button type='link' size="small" onClick = {this.handleDelete.bind(this,record.id)}>删除</Button>
+                    <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
                 </div>
-              )
+                )
+            }
+        }]
+        const rowSelection = {
+            onChange: (selectedRowKeys, selectedRows) => {
+              //当用户操作复选按钮的时候，将值获取并且保存到state中
+              this.setState({
+                ids:selectedRowKeys
+              })
+            },
+            getCheckboxProps: record => ({
+              disabled: record.name === 'Disabled User', // Column configuration not to be checked
+              name: record.name,
+            }),
+          };
+          return (
+            <div className={styles.waiter}>
+              <div className={styles.title}>服务员信息管理</div>
+              <div className={styles.btns}>
+                <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
+                <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
+                <Button type="link">导出</Button>
+              </div>
+              <Table 
+                bordered
+                rowKey="id"
+                size="small"
+                loading={this.state.loading}
+                rowSelection={rowSelection}
+                columns={columns}
+                dataSource={this.state.list}/>
+              <WaiterForm
+                initData={this.state.waiter}
+                wrappedComponentRef={this.saveFormRef}
+                visible={this.state.visible}
+                onCancel={this.handleCancel}
+                onCreate={this.handleCreate}/>
+            </div>
+          )
     }
 }
 

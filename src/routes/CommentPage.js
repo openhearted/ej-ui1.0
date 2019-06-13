@@ -103,12 +103,15 @@ class CommentPage extends React.Component {
       // 变量定义
       let columns = [{
         title:'内容',
+        align:"center",
         dataIndex:'content'
       },{
         title:'评论时间',
+        align:"center",
         dataIndex:'comment_time'
       },{
         title:'订单编号',
+        align:"center",
         dataIndex:'order_id'
       },{
         title:'操作',

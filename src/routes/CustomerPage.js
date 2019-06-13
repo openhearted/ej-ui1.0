@@ -126,12 +126,15 @@ class CustomerPage extends React.Component {
     // 变量定义
     let columns = [{
       title:'姓名',
+      align:"center",
       dataIndex:'realname'
     },{
       title:'手机号',
+      align:"center",
       dataIndex:'telephone'
     },{
       title:'状态',
+      align:"center",
       dataIndex:'status'
     },{
       title:'操作',

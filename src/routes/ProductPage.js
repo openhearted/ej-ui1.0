@@ -132,20 +132,25 @@ class ProductPage extends React.Component {
     // 变量定义
     let columns = [{
       title:'商品名称',
-        dataIndex:'name'
-      },{
-        title:'商品描述',
-        dataIndex:'description'
-      },{
-        title:'价格',
-        dataIndex:'price'
-      },{
-        title:'状态',
-        dataIndex:'status'
-      },{
-        title:'商品图片',
-        dataIndex:'photo'
-      },{
+      align:"center",
+      dataIndex:'name'
+    },{
+      title:'商品描述',
+      align:"center",
+      dataIndex:'description'
+    },{
+      title:'价格',
+      align:"center",
+      dataIndex:'price'
+    },{
+      title:'状态',
+      align:"center",
+      dataIndex:'status'
+    },{
+      title:'商品图片',
+      align:"center",
+      dataIndex:'photo'
+    },{
       title:'操作',
       width:120,
       align:"center",
