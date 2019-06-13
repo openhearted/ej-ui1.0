@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form,Modal,Input,Radio} from 'antd'
 
-class CustomerForm extends React.Component {
+class ProductForm extends React.Component {
 
   render(){
     const formLayout = {
@@ -23,27 +23,37 @@ class CustomerForm extends React.Component {
     return (
       <Modal
           visible={visible}
-          title="添加顾客信息"
+          title="添加商品信息"
           okText="提交"
           onCancel={onCancel}
           onOk={onCreate}
         >
           <Form layout="vertical" {...formLayout}>
-            <Form.Item label="姓名" >
-              {getFieldDecorator('realname', {
-                rules: [{ required: true, message: '请输入姓名!' }],
+            <Form.Item label="商品名称" >
+              {getFieldDecorator('name', {
+                rules: [{ required: true, message: '请输入商品名称!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="手机号">
-              {getFieldDecorator('telephone', {
-                rules: [{ required: true, message: '请输入手机号!' }],
+            <Form.Item label="商品描述">
+              {getFieldDecorator('description', {
+                rules: [{ required: true, message: '请输入商品描述!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="密码">
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请输入密码!' }],
-              })(<Input.Password />)}
+            <Form.Item label="商品价格">
+              {getFieldDecorator('price', {
+                rules: [{ required: true, message: '请输入商品价格!' }],
+              })(<Input />)}
             </Form.Item>
+            <Form.Item label="商品图片">
+                {getFieldDecorator('photo', {
+                  rules: [{ required: true, message: '请添加商品图片!' }],
+                })(<Input />)}
+              </Form.Item>
+            <Form.Item label="状态">
+              {getFieldDecorator('status', {
+                rules: [{ required: true, message: '请输入状态值!' }],
+              })(<Input />)}
+            </Form.Item>   
           </Form>
         </Modal>
     );
@@ -62,4 +72,4 @@ const mapPropsToFields = (props)=>{
 
 export default Form.create({
   mapPropsToFields
-})(CustomerForm);
+})(ProductForm);
