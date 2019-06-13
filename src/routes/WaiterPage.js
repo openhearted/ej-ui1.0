@@ -41,7 +41,7 @@ class WaiterPage extends React.Component{
           okType: 'danger',
           cancelText: '取消',
           onOk:()=>{
-            axios.post("http://129.211.69.98:8888/waiter/batchDelete",{ids:this.state.ids})
+            axios.post("http://129.211.69.98:8888/waiter/batchDeleteWaiter",{ids:this.state.ids})
             .then((result)=>{
               message.success(result.statusText)
               this.reloadData()
@@ -59,7 +59,7 @@ class WaiterPage extends React.Component{
           okType: 'danger',
           cancelText: '取消',
           onOk:()=>{
-            axios.get("http://129.211.69.98:8888/waiter/deleteById",{
+            axios.get("http://129.211.69.98:8888/waiter/deleteWaiterById",{
               params:{
                 id:id
               }
@@ -84,12 +84,18 @@ class WaiterPage extends React.Component{
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("http://129.211.69.98:8888/waiter/saveOrUpdate",values)
+      axios.post("http://129.211.69.98:8888/waiter/insertWaiter",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单
         form.resetFields();
         // 关闭模态框
+        this.setState({ visible: false });
+        this.reloadData();
+      })
+      axios.post("http://129.211.69.98:8888/waiter/updateWaiter",values)
+      .then((result)=>{
+        message.success(result.statusText)
         this.setState({ visible: false });
         this.reloadData();
       })

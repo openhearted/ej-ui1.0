@@ -23,7 +23,7 @@ class CategoryPage extends React.Component{
       // 重载数据
       reloadData(){
         this.setState({loading:true});
-        axios.get("http://129.211.69.98:8888/category/findAll")
+        axios.get("http://129.211.69.98:8888GET/category/findAllCategory")
         .then((result)=>{
           // 将查询数据更新到state中
           this.setState({list:result.data})
@@ -41,7 +41,7 @@ class CategoryPage extends React.Component{
           okType: 'danger',
           cancelText: '取消',
           onOk:() => {
-            axios.post("http://129.211.69.98:8888/category/batchDelete",{ids:this.state.ids})
+            axios.post("http://129.211.69.98:8888/category/batchDeleteCategory",{ids:this.state.ids})
             .then((result)=>{
               //批量删除后重载数据
               message.success(result.statusText)
@@ -61,7 +61,7 @@ class CategoryPage extends React.Component{
           cancelText: '取消',
           onOk:() => {
             // 删除操作
-            axios.get("http://129.211.69.98:8888/category/deleteById",{
+            axios.get("http://129.211.69.98:8888/category/deleteByCategoryId",{
               params:{
                 id:id
               }
@@ -87,12 +87,18 @@ class CategoryPage extends React.Component{
             return;
           }
           // 表单校验完成后与后台通信进行保存
-          axios.post("http://129.211.69.98:8888/category/saveOrUpdate",values)
+          axios.post("http://129.211.69.98:8888/category/insertCategory",values)
           .then((result)=>{
             message.success(result.statusText)
             // 重置表单
             form.resetFields();
             // 关闭模态框
+            this.setState({ visible: false });
+            this.reloadData();
+          })
+          axios.post("http://129.211.69.98:8888/category/updateCategory",values)
+          .then((result)=>{
+            message.success(result.statusText)
             this.setState({ visible: false });
             this.reloadData();
           })

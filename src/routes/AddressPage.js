@@ -20,7 +20,7 @@ class AddressPage extends React.Component{
     }
     reloadData(){
         this.setState({loading:true});
-        axios.get("http://129.211.69.98:8888/address/findAll")
+        axios.get("http://129.211.69.98:8888/address/findAddressAll")
         .then((result)=>{
             this.setState({list:result.data})
         })
@@ -36,7 +36,7 @@ class AddressPage extends React.Component{
             okType: 'danger',
             cancelText: '取消',
             onOk:() => {
-                axios.post("/address/batchDelete",{ids:this.state.ids})
+                axios.post("http://129.211.69.98:8888/address/batchDeleteAddress",{ids:this.state.ids})
                 .then((result)=>{
                 //批量删除后重载数据
                 message.success(result.statusText)
@@ -55,7 +55,7 @@ class AddressPage extends React.Component{
             cancelText: '取消',
             onOk:() => {
               // 删除操作
-              axios.get("http://129.211.69.98:8888/address/deleteById",{
+              axios.get("http://129.211.69.98:8888/address/deleteAddressById",{
                 params:{
                   id:id
                 }
@@ -80,12 +80,19 @@ class AddressPage extends React.Component{
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("http://129.211.69.98:8888/address/saveOrUpdate",values)
+      axios.post("http://129.211.69.98:8888/address/insertAddress",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单
         form.resetFields();
         // 关闭模态框
+        this.setState({ visible: false });
+        this.reloadData();
+      })
+      axios.post("http://129.211.69.98:8888/address/updateAddressPrimaryKey",values)
+      .then((result)=>{
+        message.success(result.statusText)
+        form.resetFields();
         this.setState({ visible: false });
         this.reloadData();
       })
@@ -111,14 +118,20 @@ class AddressPage extends React.Component{
   render(){
     // 变量定义
     let columns = [{
-      title:'姓名',
-      dataIndex:'realname'
+      title:'省份',
+      dataIndex:'province'
+    },{
+      title:'城市',
+      dataIndex:'city'
+    },{
+      title:'地区',
+      dataIndex:'area'
+    },{
+      title:'地址',
+      dataIndex:'address'
     },{
       title:'手机号',
       dataIndex:'telephone'
-    },{
-      title:'状态',
-      dataIndex:'status'
     },{
       title:'操作',
       width:120,

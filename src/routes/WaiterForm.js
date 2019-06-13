@@ -24,6 +24,7 @@ class WaiterForm extends React.Component {
           visible={visible}
           title="添加信息"
           okText="提交"
+          cancelText="取消"
           onCancel={onCancel}
           onOk={onCreate}
         >

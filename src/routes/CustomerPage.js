@@ -29,7 +29,7 @@ class CustomerPage extends React.Component {
   // 重载数据
   reloadData(){
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/customer/findAll")
+    axios.get("http://129.211.69.98:8888/customer/findCustomerAll")
     .then((result)=>{
       // 将查询数据更新到state中
       this.setState({list:result.data})
@@ -47,7 +47,7 @@ class CustomerPage extends React.Component {
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
-        axios.post("http://129.211.69.98:8888/customer/batchDelete",{ids:this.state.ids})
+        axios.post("http://129.211.69.98:8888/customer/batchDeleteCustomer",{ids:this.state.ids})
         .then((result)=>{
           //批量删除后重载数据
           message.success(result.statusText)
@@ -67,7 +67,7 @@ class CustomerPage extends React.Component {
       cancelText: '取消',
       onOk:() => {
         // 删除操作
-        axios.get("http://129.211.69.98:8888/customer/deleteById",{
+        axios.get("http://129.211.69.98:8888/customer/deleteCustomerById",{
           params:{
             id:id
           }
@@ -93,7 +93,7 @@ class CustomerPage extends React.Component {
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("http://129.211.69.98:8888/customer/saveOrUpdate",values)
+      axios.post("http://129.211.69.98:8888/customer/saveCustomerOrUpdateCustomer",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单

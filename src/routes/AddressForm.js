@@ -24,6 +24,7 @@ class AddressForm extends React.Component {
           visible={visible}
           title="添加地址信息"
           okText="提交"
+          cancelText="取消"
           onCancel={onCancel}
           onOk={onCreate}
         >
@@ -38,9 +39,14 @@ class AddressForm extends React.Component {
                 rules: [{ required: true, message: '请输入城市!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="国家">
+            <Form.Item label="地区">
               {getFieldDecorator('area', {
-                rules: [{ required: true, message: '请输入国家!' }],
+                rules: [{ required: true, message: '请输入地区!' }],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="地址">
+              {getFieldDecorator('address', {
+                rules: [{ required: true, message: '请输入地址!' }],
               })(<Input />)}
             </Form.Item>
             <Form.Item label="手机号">
