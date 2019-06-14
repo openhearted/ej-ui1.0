@@ -47,7 +47,7 @@ class ProductPage extends React.Component {
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
-        axios.post("http://129.211.69.98:8888//product/deleteBathProduct",{ids:this.state.ids})
+        axios.post("http://129.211.69.98:8888/product/deleteBathProduct",{ids:this.state.ids})
         .then((result)=>{
           //批量删除后重载数据
           message.success(result.statusText)
