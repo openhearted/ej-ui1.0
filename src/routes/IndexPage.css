@@ -73,8 +73,9 @@
 }
 
 
-#components-layout-demo-side .logo {
+.logo {
   height: 32px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 255);
   margin: 16px;
 }
+

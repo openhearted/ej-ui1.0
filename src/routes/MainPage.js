@@ -18,10 +18,14 @@ class MainPage extends React.Component {
 
   render() {
     return (
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-          <div className={styles.product}/>
-          <Menu theme="dark" mode="inline">
+      <Layout style={{ minHeight: '100vh'}}>
+        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}
+        style={{
+          opacity: 0.9,
+        }}
+        >
+          <div className={styles.logo}/>
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <Link to="/customer">
                 <Icon type="pie-chart" />
