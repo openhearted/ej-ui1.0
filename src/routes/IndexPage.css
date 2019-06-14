@@ -59,6 +59,9 @@
 .comment{
   padding: 1em;
 }
+.main{
+  padding: 1em;
+}
 
 .title{
   line-height: 2em;
@@ -67,4 +70,11 @@
 .btns{
   color:red;
   margin-bottom: 5em;
+}
+
+
+#components-layout-demo-side .logo {
+  height: 32px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px;
 }

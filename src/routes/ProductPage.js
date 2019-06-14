@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './IndexPage.css'
 // 导入组件
 // 导入组件
-import {Modal,Button, Table,message} from 'antd'
+import {Form,Modal,Button, Input,Table,message} from 'antd'
 import axios from '../utils/axios'
 import ProductForm from './ProductForm'
 
@@ -127,8 +127,25 @@ class ProductPage extends React.Component {
     this.setState({visible:true})
   }
 
+  queryId(id){
+    this.setState({loading:true});
+    axios.get("http://129.211.69.98:8888/product/findProductByCategoryId",{
+      params:{
+        id:id
+      }
+    })
+    .then((result)=>{
+      // 将查询数据更新到state中
+      this.setState({list:result.data})
+    })
+    .finally(()=>{
+      this.setState({loading:false});
+    })
+  }
+
   // 组件类务必要重写的方法，表示页面渲染
   render(){
+    // const { getFieldDecorator} = this.props.form;
     // 变量定义
     let columns = [{
       title:'商品名称',
@@ -177,13 +194,21 @@ class ProductPage extends React.Component {
     };
     
     // 返回结果 jsx(js + xml)
-    return (
+    return (      
       <div className={styles.product}>
         <div className={styles.title}>商品管理</div>
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-          <Button type="link">导出</Button>
+          {/* <Form onSubmit={this.handleSubmit} className="login-form">
+            <Form.Item>
+              {getFieldDecorator('id', {
+                rules: [{ required: true, message: 'Please input your username!' }],
+              })(<Input />)}
+            </Form.Item>
+          </Form> */}
+          
+            <Button onClick={this.queryId.bind(this)}>查询</Button>
         </div>
         <Table 
           bordered
