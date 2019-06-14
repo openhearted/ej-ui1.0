@@ -14,7 +14,7 @@ class ProductPage extends React.Component {
   constructor(){
     super();
     this.state = {
-      ids:[], // 批量删除的时候保存的id
+      idList:[], // 批量删除的时候保存的id
       list:[],
       loading:false,
       visible:false,
@@ -47,7 +47,7 @@ class ProductPage extends React.Component {
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
-        axios.post("http://129.211.69.98:8888/product/deleteBathProduct",{ids:this.state.ids})
+        axios.post("http://129.211.69.98:8888/product/deleteBathProduct",{idList:this.state.idList})
         .then((result)=>{
           //批量删除后重载数据
           message.success(result.statusText)
@@ -184,7 +184,7 @@ class ProductPage extends React.Component {
       onChange: (selectedRowKeys, selectedRows) => {
         // 当用户操作复选按钮的时候，将值获取到并且保存到state中
         this.setState({
-          ids:selectedRowKeys
+          idList:selectedRowKeys
         })
       },
       getCheckboxProps: record => ({
@@ -207,8 +207,7 @@ class ProductPage extends React.Component {
               })(<Input />)}
             </Form.Item>
           </Form> */}
-          
-            <Button onClick={this.queryId.bind(this)}>查询</Button>
+          <Button onClick={this.queryId.bind(this)}>查询</Button>
         </div>
         <Table 
           bordered

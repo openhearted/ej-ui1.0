@@ -2,7 +2,7 @@ import React from 'react';
 // 引入css进行页面美化
 import styles from './IndexPage.css'
 import { Link } from 'dva/router';
-import {Layout, Menu, Breadcrumb, Icon,Button } from 'antd';
+import {Layout, Menu, Breadcrumb, Icon,Button} from 'antd';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -25,7 +25,7 @@ class MainPage extends React.Component {
         }}
         >
           <div className={styles.logo}/>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" >
             <Menu.Item key="1">
               <Link to="/customer">
                 <Icon type="user" />
