@@ -24,25 +24,25 @@ class MainPage extends React.Component {
           <Menu theme="dark" mode="inline">
             <Menu.Item key="1">
               <Link to="/customer">
-                <Icon type="pie-chart" />
+                <Icon type="user" />
                 <span className={styles.navitem}>顾客管理</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
             <Link to="/address">
-                <Icon type="pie-chart" />
+                <Icon type="global" />
                 <span className={styles.navitem}>地址管理</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
             <Link to="/product">
-                <Icon type="pie-chart" />
-                <span className={styles.navitem}>产品管理</span>
+                <Icon type="inbox" />
+                <span className={styles.navitem}>商品管理</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="4">
             <Link to="/waiter">
-                <Icon type="pie-chart" />
+                <Icon type="team" />
                 <span className={styles.navitem}>服务员管理</span>
               </Link>
             </Menu.Item>
@@ -50,14 +50,14 @@ class MainPage extends React.Component {
               key="sub1"
               title={
                 <span>
-                  <Icon type="user" />
+                  <Icon type="menu" />
                   <span>分类管理</span>
                 </span>
               }
             >
-              <Menu.Item key="5">洗护</Menu.Item>
-              <Menu.Item key="6">保洁</Menu.Item>
-              <Menu.Item key="7">月嫂</Menu.Item>
+              <Menu.Item key="5"><Icon type="skin" />洗护</Menu.Item>
+              <Menu.Item key="6"><Icon type="car" />保洁</Menu.Item>
+              <Menu.Item key="7"><Icon type="woman" />月嫂</Menu.Item>
             </SubMenu>
             <Menu.Item key="9">
               <Icon type="file" />
