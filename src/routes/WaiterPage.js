@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from './IndexPage.css'
-import {Modal,Button,Table,message} from 'antd'
+import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
 import axios from '../utils/axios'
 import WaiterForm from './WaiterForm'
-
+const Search = Input.Search;
 class WaiterPage extends React.Component{
     constructor(){
         super();
@@ -165,12 +165,20 @@ class WaiterPage extends React.Component{
             }),
           };
           return (
-            <div className={styles.waiter}>
-              <div className={styles.title}>服务员信息管理</div>
+            <div className={styles.all}>
+              <Breadcrumb>
+                <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+                <Breadcrumb.Item>
+                  <a className={styles.href}>员工管理</a>
+                </Breadcrumb.Item>
+              </Breadcrumb>
               <div className={styles.btns}>
                 <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
                 <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
                 <Button type="link">导出</Button>
+                <div className={styles.search}>
+                  <Search placeholder="请输入..." onSearch={value => console.log(value)} enterButton />
+                </div>
               </div>
               <Table 
                 bordered

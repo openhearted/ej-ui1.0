@@ -7,8 +7,10 @@
 
 .title {
   font-size: 2.5rem;
+  text-align: center;
   font-weight: normal;
   letter-spacing: -1px;
+  background-color: #182C3E;
 }
 
 .welcome {
@@ -65,13 +67,20 @@
 
 .title{
   line-height: 2em;
+  color:white;
+  opacity: 0.9;
 }
 
 .btns{
   color:red;
   margin-bottom: 5em;
+  margin-top:10px;
+  margin-bottom:20px;
 }
 
+.navitem{
+  font-size: 1.3em
+}
 
 .logo {
   height: 32px;
@@ -79,3 +88,30 @@
   margin: 16px;
 }
 
+.header{
+  /* color:blue; */
+  height:100px;
+  width:100%;
+  background-color: #182C3E;
+  font-weight: bold;
+  line-height: 100px;
+  text-align: center;
+  font-size: 30px;
+}
+
+.Footer{
+  font-size: 0.6em;
+  color:#182C3E
+}
+
+.breadcrumb{
+  margin-bottom:20px;
+}
+
+.search{
+  float:right 
+}
+
+.back{
+  float:right 
+}

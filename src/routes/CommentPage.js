@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from './IndexPage.css'
-import {Modal,Button, Table,message} from 'antd'
+import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
 import axios from '../utils/axios'
 import CommentForm from './CommentForm'
-
+const Search = Input.Search;
 class CommentPage extends React.Component {
     // 局部状态state
     constructor(){
@@ -141,11 +141,19 @@ class CommentPage extends React.Component {
       
       // 返回结果 jsx(js + xml)
       return (
-        <div className={styles.comment}>
-          <div className={styles.title}>评论管理</div>
+        <div className={styles.all}>
+          <Breadcrumb>
+            <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a className={styles.href}>评论管理</a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
           <div className={styles.btns}>
             <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
             <Button type="link">导出</Button>
+            <div className={styles.search}>
+                  <Search placeholder="请输入..." onSearch={value => console.log(value)} enterButton />
+                </div>
           </div>
           <Table 
             bordered

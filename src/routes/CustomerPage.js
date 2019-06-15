@@ -3,10 +3,11 @@ import React from 'react';
 import styles from './IndexPage.css'
 // 导入组件
 // 导入组件
-import {Modal,Button, Table,message} from 'antd'
+import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
+import { Link } from 'dva/router';
 import axios from '../utils/axios'
 import CustomerForm from './CustomerForm'
-
+const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
 class CustomerPage extends React.Component {
@@ -121,6 +122,12 @@ class CustomerPage extends React.Component {
     this.setState({visible:true})
   }
 
+  customerDetail(record){
+    console.log(record);
+    //跳转
+    this.props.history.push("/customerDetails")
+  }
+
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // 变量定义
@@ -138,13 +145,14 @@ class CustomerPage extends React.Component {
       dataIndex:'status'
     },{
       title:'操作',
-      width:120,
+      width:200,
       align:"center",
       render:(text,record)=>{
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
             <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
+            <Button type='link' size="small" onClick={this.customerDetail.bind(this,record.record)}>详情</Button>
           </div>
         )
       }
@@ -164,12 +172,25 @@ class CustomerPage extends React.Component {
     
     // 返回结果 jsx(js + xml)
     return (
-      <div className={styles.customer}>
-        <div className={styles.title}>顾客管理</div>
+      <div className={styles.all}>
+        {/* <div className={styles.title}>顾客管理</div> */}
+        {/* 面包屑导航栏 */}        
+        <Breadcrumb className={styles.breadcrumb}>
+          <Breadcrumb.Item>
+          <a>E洁家政</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a className={styles.href}>顾客管理</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
+        
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <Button type="link">导出</Button>
+          <div className={styles.search}>
+          <Search placeholder="请输入..." onSearch={value => console.log(value)} enterButton />
+          </div>
         </div>
         <Table 
           bordered

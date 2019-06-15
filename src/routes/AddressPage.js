@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './IndexPage.css'
-import {Modal,Button,Table,message} from 'antd'
+import {Modal,Button,Table,message,Breadcrumb} from 'antd'
 import axios from '../utils/axios'
 import AddressForm from './AddressForm'
 
@@ -164,8 +164,13 @@ class AddressPage extends React.Component{
       };
       // 返回结果 jsx(js + xml)
     return (
-      <div className={styles.address}>
-        <div className={styles.title}>地址管理</div>
+      <div className={styles.all}>
+        <Breadcrumb>
+          <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a className={styles.href}>地址管理</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;

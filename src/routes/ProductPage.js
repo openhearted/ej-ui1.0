@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './IndexPage.css'
 // 导入组件
 // 导入组件
-import {Form,Modal,Button, Input,Table,message} from 'antd'
+import {Modal,Button,Table,message,Breadcrumb} from 'antd'
 import axios from '../utils/axios'
 import ProductForm from './ProductForm'
 
@@ -195,18 +195,17 @@ class ProductPage extends React.Component {
     
     // 返回结果 jsx(js + xml)
     return (      
-      <div className={styles.product}>
-        <div className={styles.title}>商品管理</div>
+      <div className={styles.all}>
+        {/* <div className={styles.title}>产品管理</div> */}
+        <Breadcrumb>
+          <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a className={styles.href}>产品管理</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-          {/* <Form onSubmit={this.handleSubmit} className="login-form">
-            <Form.Item>
-              {getFieldDecorator('id', {
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(<Input />)}
-            </Form.Item>
-          </Form> */}
           <Button onClick={this.queryId.bind(this)}>查询</Button>
         </div>
         <Table 

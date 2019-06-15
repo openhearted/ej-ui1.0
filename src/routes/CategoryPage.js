@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './IndexPage.css'
-import {Modal,Button, Table,message} from 'antd'
+import {Modal,Button, Table,message,Input,Breadcrumb} from 'antd'
 import axios from '../utils/axios'
 import CategoryForm from './CategoryForm'
-
+const Search = Input.Search;
 class CategoryPage extends React.Component{
     constructor(){
         super();
@@ -120,6 +120,17 @@ class CategoryPage extends React.Component{
         // 将record值绑定表单中
         this.setState({visible:true})
       }
+
+      handleSearch = (value) => {
+        axios.get('category/query', { params: { queryString: value } })
+            .then((result) => {
+                if (200 === result.status) {
+                    this.setState({
+                        list: result.data
+                    })
+                }
+            })
+    }
     
       // 组件类务必要重写的方法，表示页面渲染
       render(){
@@ -160,12 +171,21 @@ class CategoryPage extends React.Component{
         
         // 返回结果 jsx(js + xml)
         return (
-          <div className={styles.category}>
-            <div className={styles.title}>分类管理</div>
+          <div className={styles.all}>
+            <Breadcrumb>
+              <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <a className={styles.href}>分类管理</a>
+              </Breadcrumb.Item>
+            </Breadcrumb>
             <div className={styles.btns}>
               <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
               <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-              <Button type="link">导出</Button>
+              <Search
+                placeholder="输入查询内容"
+                onSearch={value => this.handleSearch(value)}
+                style={{ width: 200 }}
+              />
             </div>
             <Table 
               bordered
