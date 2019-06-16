@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './IndexPage.css'
-import {Modal,Button, Table,message,Breadcrumb} from 'antd'
+import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
+import { Link } from 'dva/router';
 import axios from '../utils/axios'
 import OrderForm from './OrderForm'
-
+const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
 class OrderPage extends React.Component {
@@ -122,17 +123,25 @@ class OrderPage extends React.Component {
   render(){
     // 变量定义
     let columns = [{
-      title:'姓名',
+      title:'顾客编号',
       align:"center",
-      dataIndex:'realname'
+      dataIndex:'customerId'
     },{
-      title:'手机号',
+      title:'员工编号',
       align:"center",
-      dataIndex:'telephone'
+      dataIndex:'waiterId'
     },{
-      title:'状态',
+      title:'地址编号',
       align:"center",
-      dataIndex:'status'
+      dataIndex:'addressId'
+    },{
+      title:'下单时间',
+      align:"center",
+      dataIndex:'orderTime'
+    },{
+      title:'总计个数',
+      align:"center",
+      dataIndex:'total'
     },{
       title:'操作',
       width:120,
@@ -162,8 +171,12 @@ class OrderPage extends React.Component {
     // 返回结果 jsx(js + xml)
     return (
       <div className={styles.all}>
-        <Breadcrumb>
-          <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+          <Breadcrumb>
+          <Breadcrumb.Item>
+          <Link to="/">
+                <span className={styles.navitem}>主页</span>
+              </Link>
+          </Breadcrumb.Item>
           <Breadcrumb.Item>
             <a className={styles.href}>订单管理</a>
           </Breadcrumb.Item>
@@ -172,6 +185,15 @@ class OrderPage extends React.Component {
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <Button type="link">导出</Button>
+          <div className={styles.search}>
+          <div className={styles.search}>
+          <Search
+                placeholder="请输入..."
+                onSearch={value => this.query.bind(this)}
+                style={{ width: 200 }}
+            />
+          </div>
+          </div>
         </div>
         <Table 
           bordered

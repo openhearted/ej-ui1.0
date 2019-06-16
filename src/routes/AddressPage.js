@@ -1,9 +1,9 @@
 import React from 'react'
 import styles from './IndexPage.css'
-import {Modal,Button,Table,message,Breadcrumb} from 'antd'
+import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
 import axios from '../utils/axios'
 import AddressForm from './AddressForm'
-
+const Search = Input.Search;
 class AddressPage extends React.Component{
     constructor(){
         super();
@@ -175,6 +175,13 @@ class AddressPage extends React.Component{
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <Button type="link">导出</Button>
+          <div className={styles.search}>
+          <Search
+                placeholder="请输入..."
+                onSearch={value => this.query.bind(this)}
+                style={{ width: 200 }}
+            />
+          </div>
         </div>
         <Table 
           bordered

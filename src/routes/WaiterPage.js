@@ -3,6 +3,7 @@ import styles from './IndexPage.css'
 import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
 import axios from '../utils/axios'
 import WaiterForm from './WaiterForm'
+import { Link } from 'dva/router';
 const Search = Input.Search;
 class WaiterPage extends React.Component{
     constructor(){
@@ -167,7 +168,11 @@ class WaiterPage extends React.Component{
           return (
             <div className={styles.all}>
               <Breadcrumb>
-                <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+              <Breadcrumb.Item>
+              <Link to="/">
+                    <span className={styles.navitem}>主页</span>
+                  </Link>
+              </Breadcrumb.Item>
                 <Breadcrumb.Item>
                   <a className={styles.href}>员工管理</a>
                 </Breadcrumb.Item>
@@ -177,7 +182,11 @@ class WaiterPage extends React.Component{
                 <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
                 <Button type="link">导出</Button>
                 <div className={styles.search}>
-                  <Search placeholder="请输入..." onSearch={value => console.log(value)} enterButton />
+                <Search
+                      placeholder="请输入..."
+                      onSearch={value => this.query.bind(this)}
+                      style={{ width: 200 }}
+                  />
                 </div>
               </div>
               <Table 

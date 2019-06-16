@@ -121,13 +121,24 @@ class CustomerPage extends React.Component {
     // 将record值绑定表单中
     this.setState({visible:true})
   }
-
+//顾客详情
   customerDetail(record){
     console.log(record);
     //跳转
     this.props.history.push("/customerDetails")
   }
-
+  //按条件查询
+  query(){
+    this.setState({loading:true});
+    axios.get("http://129.211.69.98:8888/customer/queryCustomer")
+    .then((result)=>{
+      // 将查询数据更新到state中
+      this.setState({list:result.data})
+    })
+    .finally(()=>{
+      this.setState({loading:false});
+    })
+  }
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // 变量定义
@@ -140,9 +151,9 @@ class CustomerPage extends React.Component {
       align:"center",
       dataIndex:'telephone'
     },{
-      title:'状态',
+      title:'密码',
       align:"center",
-      dataIndex:'status'
+      dataIndex:'password'
     },{
       title:'操作',
       width:200,
@@ -177,10 +188,12 @@ class CustomerPage extends React.Component {
         {/* 面包屑导航栏 */}        
         <Breadcrumb className={styles.breadcrumb}>
           <Breadcrumb.Item>
-          <a>E洁家政</a>
+          <Link to="/">
+                <span className={styles.navitem}>主页</span>
+              </Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a className={styles.href}>顾客管理</a>
+            <a className={styles.href}>顾客列表</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         
@@ -189,7 +202,11 @@ class CustomerPage extends React.Component {
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <Button type="link">导出</Button>
           <div className={styles.search}>
-          <Search placeholder="请输入..." onSearch={value => console.log(value)} enterButton />
+          <Search
+                placeholder="请输入..."
+                onSearch={value => this.query.bind(this)}
+                style={{ width: 200 }}
+            />
           </div>
         </div>
         <Table 

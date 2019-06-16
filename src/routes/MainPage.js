@@ -25,12 +25,15 @@ class MainPage extends React.Component {
           opacity: 0.9,
         }}
         >
-          <div className={styles.logo}/>
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" >
-            <Menu.Item key="1">
-              <Link to="/">
+          <Menu.Item key="0">
                 <Icon type="home" />
-                <span className={styles.navitem}>&ensp;主页&thinsp;</span>
+                <span className={styles.logo}>E洁家政</span>
+            </Menu.Item>
+            <Menu.Item key="1">
+              <Link to="">
+                <Icon type="pie-chart" />
+                <span className={styles.navitem}>dashboard</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="2">
@@ -40,9 +43,9 @@ class MainPage extends React.Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
-            <Link to="/address">
-                <Icon type="global" />
-                <span className={styles.navitem}>地址管理</span>
+              <Link to="/category">
+                <Icon type="menu" />
+                <span className={styles.navitem}>分类管理</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="4">
@@ -51,28 +54,31 @@ class MainPage extends React.Component {
                 <span className={styles.navitem}>商品管理</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="5">
-            <Link to="/waiter">
-                <Icon type="team" />
-                <span className={styles.navitem}>员工管理</span>
-              </Link>
-            </Menu.Item>
-            <SubMenu
-              key="sub1"
+            <SubMenu key="sub1"
               title={
-                <span>
-                  <Icon type="menu" />
-                  <span className={styles.navitem}>分类管理</span>
-                </span>
+                <Link to="/waiter">
+                  <Icon type="team" />
+                  <span className={styles.navitem}>员工管理</span>
+                </Link>
               }
             >
-              <Menu.Item key="6" >洗护</Menu.Item>
-              <Menu.Item key="7">保洁</Menu.Item>
-              <Menu.Item key="8">月嫂</Menu.Item>
+              <Menu.Item key="7" >洗护</Menu.Item>
+              <Menu.Item key="8">保洁</Menu.Item>
+              <Menu.Item key="9">看护</Menu.Item>
+              <Menu.Item key="10">月嫂</Menu.Item>
+              <Menu.Item key="11">其他</Menu.Item>
             </SubMenu>
-            <Menu.Item key="9">
-              <Icon type="file" />
-              <span className={styles.navitem}>File</span>
+            <Menu.Item key="5">
+              <Link to="/comment">
+                <Icon type="message" />
+                <span className={styles.navitem}>评价管理</span>
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="6">
+              <Link to="/order">
+                <Icon type="container" />
+                <span className={styles.navitem}>订单管理</span>
+              </Link>
             </Menu.Item>
           </Menu>
         </Sider>

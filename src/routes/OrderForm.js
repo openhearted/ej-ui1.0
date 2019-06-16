@@ -30,20 +30,25 @@ class OrderForm extends React.Component {
           onOk={onCreate}
         >
           <Form layout="vertical" {...formLayout}>
-            <Form.Item label="姓名" >
-              {getFieldDecorator('realname', {
-                rules: [{ required: true, message: '请输入姓名!' }],
+            <Form.Item label="顾客编号" >
+              {getFieldDecorator('customer_id', {
+                rules: [{ required: true, message: '请输入顾客编号!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="手机号">
-              {getFieldDecorator('telephone', {
-                rules: [{ required: true, message: '请输入手机号!' }],
+            <Form.Item label="员工编号">
+              {getFieldDecorator('waiter_id', {
+                rules: [{ required: true, message: '请输入员工编号!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="密码">
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: '请输入密码!' }],
-              })(<Input.Password />)}
+            <Form.Item label="地址编号">
+              {getFieldDecorator('address_id', {
+                rules: [{ required: true, message: '请输入地址编号!' }],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="下单时间">
+              {getFieldDecorator('order_time', {
+                rules: [{ required: true, message: '请输入下单时间!' }],
+              })(<Input/>)}
             </Form.Item>
           </Form>
         </Modal>

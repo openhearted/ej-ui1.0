@@ -1,8 +1,9 @@
 import React from 'react';
-import {Form,Modal,Input,Radio} from 'antd'
+import {Form,Modal,Input,Select,} from 'antd'
 
 class CategoryForm extends React.Component {
 
+  
   render(){
     const formLayout = {
         labelCol: {
@@ -15,7 +16,7 @@ class CategoryForm extends React.Component {
         },
     }
     // 父组件传递给子组件值
-    const { visible, onCancel, onCreate, form } = this.props;
+    const { visible, onCancel, onCreate, form,children } = this.props;
     const { getFieldDecorator } = form;
     getFieldDecorator('id');
     getFieldDecorator('status');
@@ -39,6 +40,12 @@ class CategoryForm extends React.Component {
               {getFieldDecorator('num', {
                 rules: [{ required: true, message: '请输入数量!' }],
               })(<Input />)}
+            </Form.Item>
+            <Form.Item label="父id">
+              {getFieldDecorator('parentId', {
+                rules: [],
+                })(<Select>{children}</Select>
+                )}
             </Form.Item>
           </Form>
         </Modal>

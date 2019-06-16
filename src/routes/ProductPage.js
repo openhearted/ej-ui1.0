@@ -3,10 +3,11 @@ import React from 'react';
 import styles from './IndexPage.css'
 // 导入组件
 // 导入组件
-import {Modal,Button,Table,message,Breadcrumb} from 'antd'
+import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
+import { Link } from 'dva/router';
 import axios from '../utils/axios'
 import ProductForm from './ProductForm'
-
+const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
 class ProductPage extends React.Component {
@@ -198,15 +199,25 @@ class ProductPage extends React.Component {
       <div className={styles.all}>
         {/* <div className={styles.title}>产品管理</div> */}
         <Breadcrumb>
-          <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a className={styles.href}>产品管理</a>
+          <Link to="/">
+                <span className={styles.navitem}>主页</span>
+              </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a className={styles.href}>产品列表</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-          <Button onClick={this.queryId.bind(this)}>查询</Button>
+          <div className={styles.search}>
+          <Search
+                placeholder="请输入..."
+                onSearch={value => this.query.bind(this)}
+                style={{ width: 200 }}
+            />
+          </div>
         </div>
         <Table 
           bordered

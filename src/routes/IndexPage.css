@@ -82,10 +82,8 @@
   font-size: 1.3em
 }
 
-.logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 255);
-  margin: 16px;
+.logo{
+  font-size: 1.5em;
 }
 
 .header{

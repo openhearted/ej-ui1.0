@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from './IndexPage.css'
-import {Modal,Button, Table,message,Input,Breadcrumb} from 'antd'
+import {Modal,Button, Table,message,Input,Breadcrumb,Select} from 'antd'
+import { Link } from 'dva/router';
 import axios from '../utils/axios'
 import CategoryForm from './CategoryForm'
+const { Option } = Select;
 const Search = Input.Search;
+
 class CategoryPage extends React.Component{
+    children = [];
     constructor(){
         super();
         this.state = {
@@ -12,7 +16,7 @@ class CategoryPage extends React.Component{
           list:[],
           loading:false,
           visible:false,
-          category:{}
+          category:{},
         }
       }
       // 在生命周期钩子函数中调用重载数据
@@ -25,6 +29,10 @@ class CategoryPage extends React.Component{
         this.setState({loading:true});
         axios.get("http://129.211.69.98:8888/category/findAllCategory")
         .then((result)=>{
+          this.children = []
+                result.data.forEach((item) => {
+                    this.children.push(<Option key={item.id} value={item.id}>{item.name}</Option>);
+          })
           // 将查询数据更新到state中
           this.setState({list:result.data})
         })
@@ -74,6 +82,11 @@ class CategoryPage extends React.Component{
           }
         });
       }
+
+      onSelectChange = selectedRowKeys => {
+        this.setState({ selectedRowKeys });
+
+    };
     
       // 取消按钮的事件处理函数
       handleCancel = () => {
@@ -120,22 +133,15 @@ class CategoryPage extends React.Component{
         // 将record值绑定表单中
         this.setState({visible:true})
       }
-
-      handleSearch = (value) => {
-        axios.get('category/query', { params: { queryString: value } })
-            .then((result) => {
-                if (200 === result.status) {
-                    this.setState({
-                        list: result.data
-                    })
-                }
-            })
-    }
-    
       // 组件类务必要重写的方法，表示页面渲染
       render(){
         // 变量定义
+        // let text = "是否删除"
         let columns = [{
+          title:'编号',
+          dataIndex:'id'
+          },
+          {
           title:'分类名称',
           align:"center",
           dataIndex:'name'
@@ -143,6 +149,10 @@ class CategoryPage extends React.Component{
           title:'数量',
           align:"center",
           dataIndex:'num'
+          },{
+            title:'类型',
+            align:"center",
+            dataIndex:'parentId'
           },{
           title:'操作',
           width:120,
@@ -173,7 +183,11 @@ class CategoryPage extends React.Component{
         return (
           <div className={styles.all}>
             <Breadcrumb>
-              <Breadcrumb.Item>E洁家政</Breadcrumb.Item>
+              <Breadcrumb.Item>
+              <Link to="/">
+                <span className={styles.navitem}>主页</span>
+              </Link>
+              </Breadcrumb.Item>
               <Breadcrumb.Item>
                 <a className={styles.href}>分类管理</a>
               </Breadcrumb.Item>
@@ -181,11 +195,13 @@ class CategoryPage extends React.Component{
             <div className={styles.btns}>
               <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
               <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
+              <div className={styles.search}>
               <Search
-                placeholder="输入查询内容"
-                onSearch={value => this.handleSearch(value)}
-                style={{ width: 200 }}
-              />
+                    placeholder="请输入..."
+                    onSearch={value => this.query.bind(this)}
+                    style={{ width: 200 }}
+                />
+              </div>
             </div>
             <Table 
               bordered
@@ -200,7 +216,9 @@ class CategoryPage extends React.Component{
               wrappedComponentRef={this.saveFormRef}
               visible={this.state.visible}
               onCancel={this.handleCancel}
-              onCreate={this.handleCreate}/>
+              onCreate={this.handleCreate}
+              children={this.children} 
+              />
           </div>
         )
     }
