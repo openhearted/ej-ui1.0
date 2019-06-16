@@ -1,8 +1,8 @@
 import React from 'react'
-import styles from './IndexPage.css'
+import styles from '../IndexPage.css'
 import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
 import { Link } from 'dva/router';
-import axios from '../utils/axios'
+import axios from '../../utils/axios'
 import CommentForm from './CommentForm'
 const Search = Input.Search;
 class CommentPage extends React.Component {

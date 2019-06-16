@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from './IndexPage.css'
+import styles from '../IndexPage.css'
 import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
-import axios from '../utils/axios'
+import axios from '../../utils/axios'
 import WaiterForm from './WaiterForm'
 import { Link } from 'dva/router';
 const Search = Input.Search;

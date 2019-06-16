@@ -1,7 +1,5 @@
 import React from 'react';
-import { Tabs, Icon,Button ,Table} from 'antd';
-import styles from './IndexPage.css'
-import { Link } from 'dva/router';
+import { Tabs, Button } from 'antd';
 const { TabPane } = Tabs;
 
 

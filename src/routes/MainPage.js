@@ -26,7 +26,7 @@ class MainPage extends React.Component {
         }}
         >
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" >
-          <Menu.Item key="0">
+            <Menu.Item key="0">
                 <Icon type="home" />
                 <span className={styles.logo}>E洁家政</span>
             </Menu.Item>

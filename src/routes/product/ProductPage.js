@@ -1,25 +1,25 @@
 import React from 'react';
 // 引入css进行页面美化
-import styles from './IndexPage.css'
+import styles from '../IndexPage.css'
 // 导入组件
 // 导入组件
-import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
+import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
 import { Link } from 'dva/router';
-import axios from '../utils/axios'
-import CustomerForm from './CustomerForm'
+import axios from '../../utils/axios'
+import ProductForm from './ProductForm'
 const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
-class CustomerPage extends React.Component {
+class ProductPage extends React.Component {
   // 局部状态state
   constructor(){
     super();
     this.state = {
-      ids:[], // 批量删除的时候保存的id
+      idList:[], // 批量删除的时候保存的id
       list:[],
       loading:false,
       visible:false,
-      customer:{}
+      product:{}
     }
   }
   // 在生命周期钩子函数中调用重载数据
@@ -30,7 +30,7 @@ class CustomerPage extends React.Component {
   // 重载数据
   reloadData(){
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/customer/findCustomerAll")
+    axios.get("http://129.211.69.98:8888/product/findAllProduct")
     .then((result)=>{
       // 将查询数据更新到state中
       this.setState({list:result.data})
@@ -42,13 +42,13 @@ class CustomerPage extends React.Component {
   // 批量删除
   handleBatchDelete(){
     Modal.confirm({
-      title: '确定删除这些记录吗?',
+      title: '确定删除这些商品吗?',
       content: '一旦删除数据将无法恢复',
       okText: '确定',
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
-        axios.post("http://129.211.69.98:8888/customer/batchDeleteCustomer",{ids:this.state.ids})
+        axios.post("http://129.211.69.98:8888/product/deleteBathProduct",{idList:this.state.idList})
         .then((result)=>{
           //批量删除后重载数据
           message.success(result.statusText)
@@ -61,14 +61,14 @@ class CustomerPage extends React.Component {
   // 单个删除
   handleDelete(id){
     Modal.confirm({
-      title: '确定删除这条记录吗?',
+      title: '确定删除这件商品吗?',
       content: '一旦删除数据将无法恢复',
       okText: '确定',
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
         // 删除操作
-        axios.get("http://129.211.69.98:8888/customer/deleteCustomerById",{
+        axios.get("http://129.211.69.98:8888/product/deleteProductById",{
           params:{
             id:id
           }
@@ -94,12 +94,18 @@ class CustomerPage extends React.Component {
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("http://129.211.69.98:8888/customer/saveCustomerOrUpdateCustomer",values)
+      axios.post("http://129.211.69.98:8888/product/insertProduct",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单
         form.resetFields();
         // 关闭模态框
+        this.setState({ visible: false });
+        this.reloadData();
+      })
+      axios.post("http://129.211.69.98:8888/product/updateProduct",values)
+      .then((result)=>{
+        message.success(result.statusText)
         this.setState({ visible: false });
         this.reloadData();
       })
@@ -112,25 +118,23 @@ class CustomerPage extends React.Component {
   // 去添加
   toAdd(){
     // 将默认值置空,模态框打开
-    this.setState({customer:{},visible:true})
+    this.setState({product:{},visible:true})
   }
   // 去更新
   toEdit(record){
     // 更前先先把要更新的数据设置到state中
-    this.setState({customer:record})
+    this.setState({product:record})
     // 将record值绑定表单中
     this.setState({visible:true})
   }
-//顾客详情
-  customerDetail(record){
-    console.log(record);
-    //跳转
-    this.props.history.push("/customerDetails")
-  }
-  //按条件查询
-  query(){
+
+  queryId(id){
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/customer/queryCustomer")
+    axios.get("http://129.211.69.98:8888/product/findProductByCategoryId",{
+      params:{
+        id:id
+      }
+    })
     .then((result)=>{
       // 将查询数据更新到state中
       this.setState({list:result.data})
@@ -139,31 +143,40 @@ class CustomerPage extends React.Component {
       this.setState({loading:false});
     })
   }
+
   // 组件类务必要重写的方法，表示页面渲染
   render(){
+    // const { getFieldDecorator} = this.props.form;
     // 变量定义
     let columns = [{
-      title:'姓名',
+      title:'商品名称',
       align:"center",
-      dataIndex:'realname'
+      dataIndex:'name'
     },{
-      title:'手机号',
+      title:'商品描述',
       align:"center",
-      dataIndex:'telephone'
+      dataIndex:'description'
     },{
-      title:'密码',
+      title:'价格',
       align:"center",
-      dataIndex:'password'
+      dataIndex:'price'
+    },{
+      title:'状态',
+      align:"center",
+      dataIndex:'status'
+    },{
+      title:'商品图片',
+      align:"center",
+      dataIndex:'photo'
     },{
       title:'操作',
-      width:200,
+      width:120,
       align:"center",
       render:(text,record)=>{
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
             <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
-            <Button type='link' size="small" onClick={this.customerDetail.bind(this,record.record)}>详情</Button>
           </div>
         )
       }
@@ -172,7 +185,7 @@ class CustomerPage extends React.Component {
       onChange: (selectedRowKeys, selectedRows) => {
         // 当用户操作复选按钮的时候，将值获取到并且保存到state中
         this.setState({
-          ids:selectedRowKeys
+          idList:selectedRowKeys
         })
       },
       getCheckboxProps: record => ({
@@ -182,25 +195,22 @@ class CustomerPage extends React.Component {
     };
     
     // 返回结果 jsx(js + xml)
-    return (
+    return (      
       <div className={styles.all}>
-        {/* <div className={styles.title}>顾客管理</div> */}
-        {/* 面包屑导航栏 */}        
-        <Breadcrumb className={styles.breadcrumb}>
+        {/* <div className={styles.title}>产品管理</div> */}
+        <Breadcrumb>
           <Breadcrumb.Item>
           <Link to="/">
                 <span className={styles.navitem}>主页</span>
               </Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a className={styles.href}>顾客列表</a>
+            <a className={styles.href}>产品列表</a>
           </Breadcrumb.Item>
         </Breadcrumb>
-        
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-          <Button type="link">导出</Button>
           <div className={styles.search}>
           <Search
                 placeholder="请输入..."
@@ -218,8 +228,8 @@ class CustomerPage extends React.Component {
           columns={columns}
           dataSource={this.state.list}/>
 
-        <CustomerForm
-          initData={this.state.customer}
+        <ProductForm
+          initData={this.state.product}
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -229,4 +239,4 @@ class CustomerPage extends React.Component {
   }
 }
 
-export default CustomerPage;
+export default ProductPage;

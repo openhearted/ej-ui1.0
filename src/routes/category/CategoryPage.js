@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './IndexPage.css'
+import styles from '../IndexPage.css'
 import {Modal,Button, Table,message,Input,Breadcrumb,Select} from 'antd'
 import { Link } from 'dva/router';
-import axios from '../utils/axios'
+import axios from '../../utils/axios'
 import CategoryForm from './CategoryForm'
 const { Option } = Select;
 const Search = Input.Search;

@@ -1,13 +1,16 @@
 import React from 'react';
-import styles from './IndexPage.css'
+// 引入css进行页面美化
+import styles from '../IndexPage.css'
+// 导入组件
+// 导入组件
 import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
 import { Link } from 'dva/router';
-import axios from '../utils/axios'
-import OrderForm from './OrderForm'
+import axios from '../../utils/axios'
+import CustomerForm from './CustomerForm'
 const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
-class OrderPage extends React.Component {
+class CustomerPage extends React.Component {
   // 局部状态state
   constructor(){
     super();
@@ -16,7 +19,7 @@ class OrderPage extends React.Component {
       list:[],
       loading:false,
       visible:false,
-      order:{}
+      customer:{}
     }
   }
   // 在生命周期钩子函数中调用重载数据
@@ -27,7 +30,7 @@ class OrderPage extends React.Component {
   // 重载数据
   reloadData(){
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/order/findAllOrder")
+    axios.get("http://129.211.69.98:8888/customer/findCustomerAll")
     .then((result)=>{
       // 将查询数据更新到state中
       this.setState({list:result.data})
@@ -45,7 +48,7 @@ class OrderPage extends React.Component {
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
-        axios.post("http://129.211.69.98:8888/order/batchDeleteOrder",{ids:this.state.ids})
+        axios.post("http://129.211.69.98:8888/customer/batchDeleteCustomer",{ids:this.state.ids})
         .then((result)=>{
           //批量删除后重载数据
           message.success(result.statusText)
@@ -65,7 +68,7 @@ class OrderPage extends React.Component {
       cancelText: '取消',
       onOk:() => {
         // 删除操作
-        axios.get("http://129.211.69.98:8888/order/deleteOrderById",{
+        axios.get("http://129.211.69.98:8888/customer/deleteCustomerById",{
           params:{
             id:id
           }
@@ -91,7 +94,7 @@ class OrderPage extends React.Component {
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("http://129.211.69.98:8888/order/insertOrder",values)
+      axios.post("http://129.211.69.98:8888/customer/saveCustomerOrUpdateCustomer",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单
@@ -109,48 +112,58 @@ class OrderPage extends React.Component {
   // 去添加
   toAdd(){
     // 将默认值置空,模态框打开
-    this.setState({order:{},visible:true})
+    this.setState({customer:{},visible:true})
   }
   // 去更新
   toEdit(record){
     // 更前先先把要更新的数据设置到state中
-    this.setState({order:record})
+    this.setState({customer:record})
     // 将record值绑定表单中
     this.setState({visible:true})
   }
-
+//顾客详情
+  customerDetail(record){
+    console.log(record);
+    //跳转
+    this.props.history.push("/customerDetails")
+  }
+  //按条件查询
+  query(){
+    this.setState({loading:true});
+    axios.get("http://129.211.69.98:8888/customer/queryCustomer")
+    .then((result)=>{
+      // 将查询数据更新到state中
+      this.setState({list:result.data})
+    })
+    .finally(()=>{
+      this.setState({loading:false});
+    })
+  }
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // 变量定义
     let columns = [{
-      title:'顾客编号',
+      title:'姓名',
       align:"center",
-      dataIndex:'customerId'
+      dataIndex:'realname'
     },{
-      title:'员工编号',
+      title:'手机号',
       align:"center",
-      dataIndex:'waiterId'
+      dataIndex:'telephone'
     },{
-      title:'地址编号',
+      title:'密码',
       align:"center",
-      dataIndex:'addressId'
-    },{
-      title:'下单时间',
-      align:"center",
-      dataIndex:'orderTime'
-    },{
-      title:'总计个数',
-      align:"center",
-      dataIndex:'total'
+      dataIndex:'password'
     },{
       title:'操作',
-      width:120,
+      width:200,
       align:"center",
       render:(text,record)=>{
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
             <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
+            <Button type='link' size="small" onClick={this.customerDetail.bind(this,record.record)}>详情</Button>
           </div>
         )
       }
@@ -171,14 +184,16 @@ class OrderPage extends React.Component {
     // 返回结果 jsx(js + xml)
     return (
       <div className={styles.all}>
-          <Breadcrumb>
+        {/* <div className={styles.title}>顾客管理</div> */}
+        {/* 面包屑导航栏 */}        
+        <Breadcrumb className={styles.breadcrumb}>
           <Breadcrumb.Item>
           <Link to="/">
                 <span className={styles.navitem}>主页</span>
               </Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            <a className={styles.href}>订单管理</a>
+            <a className={styles.href}>顾客列表</a>
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className={styles.btns}>
@@ -186,13 +201,11 @@ class OrderPage extends React.Component {
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <Button type="link">导出</Button>
           <div className={styles.search}>
-          <div className={styles.search}>
           <Search
                 placeholder="请输入..."
                 onSearch={value => this.query.bind(this)}
                 style={{ width: 200 }}
             />
-          </div>
           </div>
         </div>
         <Table 
@@ -204,8 +217,8 @@ class OrderPage extends React.Component {
           columns={columns}
           dataSource={this.state.list}/>
 
-        <OrderForm
-          initData={this.state.order}
+        <CustomerForm
+          initData={this.state.customer}
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -215,4 +228,4 @@ class OrderPage extends React.Component {
   }
 }
 
-export default OrderPage;
+export default CustomerPage;

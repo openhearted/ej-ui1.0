@@ -1,16 +1,16 @@
 import React from 'react';
 import { Router, Route, Switch } from 'dva/router';
-import AddressPage from './routes/AddressPage';
-import CategoryPage from './routes/CategoryPage';
-import CommentPage from './routes/CommentPage';
-import CustomerPage from './routes/CustomerPage';
-import Order_linePage from './routes/Order_linePage';
-import OrderPage from './routes/OrderPage';
-import ProductPage from './routes/ProductPage';
-import WaiterPage from './routes/WaiterPage';
+import AddressPage from './routes/address/AddressPage';
+import CategoryPage from './routes/category/CategoryPage';
+import CommentPage from './routes/comment/CommentPage';
+import CustomerPage from './routes/customer/CustomerPage';
+import Order_linePage from './routes/order/Order_linePage';
+import OrderPage from './routes/order/OrderPage';
+import ProductPage from './routes/product/ProductPage';
+import WaiterPage from './routes/waiter/WaiterPage';
 import MainPage from './routes/MainPage';
-import CustomerDetails from './routes/CustomerDetail'
-// import LoginPage from './LoginPage'
+import CustomerDetails from './routes/customer/CustomerDetail'
+// import LoginPage from './login/LoginPage'
 
 function RouterConfig({ history }) {
   return (

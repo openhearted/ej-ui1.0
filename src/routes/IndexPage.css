@@ -83,7 +83,8 @@
 }
 
 .logo{
-  font-size: 1.5em;
+  font-size:2.0em;
+  margin-bottom:20px;
 }
 
 .header{
@@ -112,4 +113,8 @@
 
 .back{
   float:right 
+}
+
+.logoDiv{
+  margin-bottom:200px;
 }
