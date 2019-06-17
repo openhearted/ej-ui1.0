@@ -2,7 +2,7 @@ import React from 'react';
 // 引入css进行页面美化
 import styles from './IndexPage.css'
 import { Link } from 'dva/router';
-import {Layout, Menu, Icon,Button} from 'antd';
+import {Layout, Menu, Icon} from 'antd';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -31,7 +31,7 @@ class MainPage extends React.Component {
                 <span className={styles.logo}>E洁家政</span>
             </Menu.Item>
             <Menu.Item key="1">
-              <Link to="">
+              <Link to="/">
                 <Icon type="pie-chart" />
                 <span className={styles.navitem}>dashboard</span>
               </Link>
