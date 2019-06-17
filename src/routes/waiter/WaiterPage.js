@@ -5,6 +5,7 @@ import axios from '../../utils/axios'
 import WaiterForm from './WaiterForm'
 import { Link } from 'dva/router';
 const Search = Input.Search;
+
 class WaiterPage extends React.Component{
     constructor(){
         super();
@@ -119,6 +120,22 @@ class WaiterPage extends React.Component{
     this.setState({visible:true})
   }
 
+  queryId(id){
+    this.setState({loading:true});
+    axios.get("http://129.211.69.98:8888/waiter/findWaiterById",{
+      params:{
+        id:id
+      }
+    })
+    .then((result)=>{
+      // 将查询数据更新到state中
+      this.setState({list:result.data})
+    })
+    .finally(()=>{
+      this.setState({loading:false});
+    })
+  }
+
     render(){
         let columns = [{
             title:'电话',
@@ -140,6 +157,15 @@ class WaiterPage extends React.Component{
             title:'状态',
             align:"center",
             dataIndex:'status'
+        },{
+            title:'照片',
+            align:"center",
+            dataIndex:'photo',
+            render(text){
+              return (
+                <img width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
+              )
+            }
         },{
             title:'操作',
             width:200,
