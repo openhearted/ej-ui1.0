@@ -119,6 +119,22 @@ class OrderPage extends React.Component {
     this.setState({visible:true})
   }
 
+  //模糊查询
+  query = (value) =>{
+    this.setState({loading:true});
+    axios.get("http://129.211.69.98:8888/order/queryOrder",{
+      params:{
+        orderTime: value,
+      }
+    })
+    .then((result)=>{
+      // 将查询数据更新到state中
+      this.setState({list:result.data})
+    })
+    .finally(()=>{
+      this.setState({loading:false});
+    })
+  }
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // 变量定义
@@ -189,9 +205,9 @@ class OrderPage extends React.Component {
           <div className={styles.search}>
           <Search
                 placeholder="请输入..."
-                onSearch={value => this.query.bind(this)}
+                onSearch={value => this.query(value)}
                 style={{ width: 200 }}
-            />
+          />
           </div>
           </div>
         </div>

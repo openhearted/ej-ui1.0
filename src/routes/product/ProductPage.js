@@ -82,11 +82,11 @@ class ProductPage extends React.Component {
     });
   }
 
-  // 取消按钮的事件处理函数
+  // 模态框的取消按钮的事件处理函数
   handleCancel = () => {
     this.setState({ visible: false });
   };
-  // 确认按钮的事件处理函数
+  // 模态框的确认按钮的事件处理函数
   handleCreate = () => {
     const form = this.formRef.props.form;
     form.validateFields((err, values) => {
@@ -127,7 +127,7 @@ class ProductPage extends React.Component {
     // 将record值绑定表单中
     this.setState({visible:true})
   }
-
+  // 模糊查询
   queryId(id){
     this.setState({loading:true});
     axios.get("http://129.211.69.98:8888/product/findProductByCategoryId",{
@@ -161,9 +161,9 @@ class ProductPage extends React.Component {
       align:"center",
       dataIndex:'price'
     },{
-      title:'状态',
+      title:'所属分类',
       align:"center",
-      dataIndex:'status'
+      dataIndex:'categoryId'
     },{
       title:'商品图片',
       align:"center",
@@ -218,7 +218,7 @@ class ProductPage extends React.Component {
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <div className={styles.search}>
           <Search
-                placeholder="请输入..."
+                placeholder="请输入您想要查询的内容"
                 onSearch={value => this.query.bind(this)}
                 style={{ width: 200 }}
             />

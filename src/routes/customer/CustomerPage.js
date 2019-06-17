@@ -128,9 +128,13 @@ class CustomerPage extends React.Component {
     this.props.history.push("/customerDetails")
   }
   //按条件查询
-  query(){
+  query = (value)=>{
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/customer/queryCustomer")
+    axios.get("http://129.211.69.98:8888/customer/queryCustomer",{
+      params:{
+        realname: value,
+      }
+    })
     .then((result)=>{
       // 将查询数据更新到state中
       this.setState({list:result.data})
@@ -203,7 +207,7 @@ class CustomerPage extends React.Component {
           <div className={styles.search}>
           <Search
                 placeholder="请输入..."
-                onSearch={value => this.query.bind(this)}
+                onSearch={value => this.query(value)}
                 style={{ width: 200 }}
             />
           </div>
