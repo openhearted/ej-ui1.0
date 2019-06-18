@@ -7,6 +7,7 @@ import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
 import { Link } from 'dva/router';
 import axios from '../../utils/axios'
 import ProductForm from './ProductForm'
+import Zmage from 'react-zmage'
 const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
@@ -128,11 +129,11 @@ class ProductPage extends React.Component {
     this.setState({visible:true})
   }
   // 模糊查询
-  queryId(id){
+  query = (value) =>{
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/product/findProductByCategoryId",{
+    axios.get("http://129.211.69.98:8888/product/queryCustomer",{
       params:{
-        id:id
+        name:value
       }
     })
     .then((result)=>{
@@ -170,7 +171,7 @@ class ProductPage extends React.Component {
       dataIndex:'photo',
       render(text){
         return (
-          <img width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
+          <Zmage width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
         )
       }
     },{
@@ -219,7 +220,7 @@ class ProductPage extends React.Component {
           <div className={styles.search}>
           <Search
                 placeholder="请输入您想要查询的内容"
-                onSearch={value => this.query.bind(this)}
+                onSearch={value => this.query(value)}
                 style={{ width: 200 }}
             />
           </div>

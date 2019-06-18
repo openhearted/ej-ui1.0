@@ -10,8 +10,12 @@
   text-align: center;
   font-weight: normal;
   letter-spacing: -1px;
-  background-color: #182C3E;
 }
+/* .title{
+  line-height: 2em;
+  color:white;
+  opacity: 0.9;
+} */
 
 .welcome {
   height: 328px;
@@ -65,11 +69,7 @@
   padding: 1em;
 }
 
-.title{
-  line-height: 2em;
-  color:white;
-  opacity: 0.9;
-}
+
 
 .btns{
   color:red;
@@ -118,3 +118,4 @@
 .logoDiv{
   margin-bottom:200px;
 }
+

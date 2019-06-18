@@ -4,6 +4,7 @@ import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
 import { Link } from 'dva/router';
 import axios from '../../utils/axios'
 import OrderForm from './OrderForm'
+import { exportExcel } from 'xlsx-oc'
 const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
@@ -106,25 +107,13 @@ class OrderPage extends React.Component {
   saveFormRef = formRef => {
     this.formRef = formRef;
   };
-  // 去添加
-  toAdd(){
-    // 将默认值置空,模态框打开
-    this.setState({order:{},visible:true})
-  }
-  // 去更新
-  toEdit(record){
-    // 更前先先把要更新的数据设置到state中
-    this.setState({order:record})
-    // 将record值绑定表单中
-    this.setState({visible:true})
-  }
 
   //模糊查询
   query = (value) =>{
     this.setState({loading:true});
     axios.get("http://129.211.69.98:8888/order/queryOrder",{
       params:{
-        orderTime: value,
+        id: value,
       }
     })
     .then((result)=>{
@@ -143,10 +132,6 @@ class OrderPage extends React.Component {
       align:"center",
       dataIndex:'customerId'
     },{
-      title:'员工编号',
-      align:"center",
-      dataIndex:'waiterId'
-    },{
       title:'地址编号',
       align:"center",
       dataIndex:'addressId'
@@ -154,6 +139,10 @@ class OrderPage extends React.Component {
       title:'下单时间',
       align:"center",
       dataIndex:'orderTime'
+    },{
+      title:'员工编号',
+      align:"center",
+      dataIndex:'waiterId'
     },{
       title:'总计个数',
       align:"center",
@@ -166,7 +155,6 @@ class OrderPage extends React.Component {
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
-            <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
           </div>
         )
       }
@@ -183,7 +171,26 @@ class OrderPage extends React.Component {
         name: record.name,
       }),
     };
-    
+    const dataSource = [{
+      key: '1',
+      cs: 'customerId',
+      sm: 'addressId',
+      lx: 'orderTime',
+      mrz: 'waiterId',
+      }
+      // , {
+      //     key: '2',
+      //     cs: 'mm',
+      //     sm: '啦啦啦啦',
+      //     lx: 'string',
+      //     mrz: '',
+      // }
+    ];
+      const exportDefaultExcel = () => {
+        var _headers = [{ k: 'cs', v: '顾客编号' }, { k: 'sm', v: '地址编号' },
+        { k: 'lx', v: '下单时间' }, { k: 'mrz', v: '员工编号' },]
+        exportExcel(_headers, dataSource);
+    }
     // 返回结果 jsx(js + xml)
     return (
       <div className={styles.all}>
@@ -198,9 +205,8 @@ class OrderPage extends React.Component {
           </Breadcrumb.Item>
         </Breadcrumb>
         <div className={styles.btns}>
-          <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-          <Button type="link">导出</Button>
+          <Button onClick={() => exportDefaultExcel()}>导出</Button>
           <div className={styles.search}>
           <div className={styles.search}>
           <Search

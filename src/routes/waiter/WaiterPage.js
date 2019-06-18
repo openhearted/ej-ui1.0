@@ -4,6 +4,7 @@ import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
 import axios from '../../utils/axios'
 import WaiterForm from './WaiterForm'
 import { Link } from 'dva/router';
+import Zmage from 'react-zmage'
 const Search = Input.Search;
 
 class WaiterPage extends React.Component{
@@ -135,24 +136,39 @@ class WaiterPage extends React.Component{
       this.setState({loading:false});
     })
   }
+  query = (value)=>{
+    this.setState({loading:true});
+    axios.get("http://129.211.69.98:8888/waiter/queryWaiter",{
+      params:{
+        realname:value
+      }
+    })
+    .then((result)=>{
+      // 将查询数据更新到state中
+      this.setState({list:result.data})
+    })
+    .finally(()=>{
+      this.setState({loading:false});
+    })
+  }
 
     render(){
         let columns = [{
-            title:'电话',
+            title:'工号',
             align:"center",
-            dataIndex:'telephone'
-        },{
-            title:'密码',
-            align:"center",
-            dataIndex:'password'
+            dataIndex:'idcard'
         },{
             title:'姓名',
             align:"center",
             dataIndex:'realname'
         },{
-            title:'工号',
+          title:'密码',
+          align:"center",
+          dataIndex:'password'
+        },{
+            title:'电话',
             align:"center",
-            dataIndex:'idcard'
+            dataIndex:'telephone'
         },{
             title:'状态',
             align:"center",
@@ -163,7 +179,7 @@ class WaiterPage extends React.Component{
             dataIndex:'photo',
             render(text){
               return (
-                <img width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
+                <Zmage width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
               )
             }
         },{
@@ -210,7 +226,7 @@ class WaiterPage extends React.Component{
                 <div className={styles.search}>
                 <Search
                       placeholder="请输入..."
-                      onSearch={value => this.query.bind(this)}
+                      onSearch={value => this.query(value)}
                       style={{ width: 200 }}
                   />
                 </div>

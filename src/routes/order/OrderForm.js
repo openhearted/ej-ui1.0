@@ -35,14 +35,14 @@ class OrderForm extends React.Component {
                 rules: [{ required: true, message: '请输入顾客编号!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="员工编号">
-              {getFieldDecorator('waiter_id', {
-                rules: [{ required: true, message: '请输入员工编号!' }],
-              })(<Input />)}
-            </Form.Item>
             <Form.Item label="地址编号">
               {getFieldDecorator('address_id', {
                 rules: [{ required: true, message: '请输入地址编号!' }],
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="员工编号">
+              {getFieldDecorator('waiter_id', {
+                rules: [{ required: true, message: '请输入员工编号!' }],
               })(<Input />)}
             </Form.Item>
             <Form.Item label="下单时间">

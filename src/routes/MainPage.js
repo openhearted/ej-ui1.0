@@ -2,7 +2,7 @@ import React from 'react';
 // 引入css进行页面美化
 import styles from './IndexPage.css'
 import { Link } from 'dva/router';
-import {Layout, Menu, Icon} from 'antd';
+import {Layout, Menu, Icon,Statistic, Row, Col, Button} from 'antd';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -87,7 +87,17 @@ class MainPage extends React.Component {
            <Link to="/login"/>
            </Header>
           <Content style={{ margin: '0 16px' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>{this.props.children ? this.props.children : <h1 className={styles.title}>欢迎使用</h1>}</div>
+            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>{this.props.children ? this.props.children : <h1 className={styles.title}>
+            {/* 数据统计 */}
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Statistic title="销量最高" value={12222} />
+                </Col>
+                <Col span={12}>
+                  <Statistic title="点击量" value={112893} precision={2} />
+                </Col>
+              </Row>
+            </h1>}</div>
           </Content>
           <Footer className={styles.Footer} style={{ textAlign: 'center'}}>E洁家政后台管理系统</Footer>
         </Layout>

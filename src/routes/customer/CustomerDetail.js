@@ -1,19 +1,54 @@
 import React from 'react';
-import { Tabs, Button } from 'antd';
-const { TabPane } = Tabs;
+import { Tabs, Button,Table } from 'antd';
+import axios from '../../utils/axios'
 
 
 class CustomerDetail extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-
+          customer:{},
+          address:[],
+          orders:[]
         }
       }
 
 // 在生命周期钩子函数中调用重载数据
-  componentDidMount(){
-      
+    componentDidMount(){
+        //   console.log(JSON.stringify(this.props.location.payload))
+        let payload = this.props.location.payload;
+        if(payload){
+            this.setState({customer:payload})
+            this.loadAddress();
+            this.loadOrders();
+          } else {
+            this.props.history.push("/customer")
+          }
+    }
+
+    //加载地址信息
+  loadAddress(){
+    axios.get("http://129.211.69.98:8888/address/query",{
+      params:{
+          customerId:this.props.location.payload.id
+        }
+    })
+    .then((result)=>{
+      this.setState({
+        address:result.data
+      })
+    })
+  }
+   //加载订单信息
+   loadOrders(){
+    axios.get("http://129.211.69.98:8888/order/query",{
+      params:{customerId:this.props.location.payload.id}
+    })
+    .then((result)=>{
+      this.setState({
+        orders:result.data
+      })
+    })
   }
 // 修改头像
     modifyphoto(){
@@ -21,68 +56,73 @@ class CustomerDetail extends React.Component{
     }
 
     render(){
+
+      
+      let columns1 = [{
+        title:'省份',
+        align:"center",
+        dataIndex:'province'
+      },{
+        title:'城市',
+        align:"center",
+        dataIndex:'city'
+      },{
+        title:'地区',
+        align:"center",
+        dataIndex:'area'
+      },{
+        title:'地址',
+        align:"center",
+        dataIndex:'address'
+      }]
+      let columns2 = [{
+        title:'订单编号',
+        align:"center",
+        dataIndex:'id'
+      },{
+        title:'下单时间',
+        align:"center",
+        dataIndex:'orderTime'
+      },{
+        title:'服务员id',
+        align:"center",
+        dataIndex:'waiterId'
+      },{
+        title:'总计',
+        align:"center",
+        dataIndex:'total'
+      }]
+        const { TabPane } = Tabs;
         function callback(key) {
             console.log(key);
           }
-
         const operations = <Button type="link" onClick={()=>{this.props.history.goBack()}}>返回</Button>;
-
-        // let columns = [
-        //     {
-        //     title:'姓名',
-        //     align:"center",
-        //     dataIndex:'realname'
-        //   },{
-        //     title:'联系方式',
-        //     align:"center",
-        //     dataIndex:'telephone'
-        //   },{
-        //     title:'头像',
-        //     align:"center",
-        //     dataIndex:'status'
-        //   },{
-        //     title:'操作',
-        //     width:200,
-        //     align:"center",
-        //     render:(text,record)=>{
-        //       return (
-        //         <div>
-        //           <Button type='link' size="small" onClick={this.modifyphoto.bind(this,record.id)}>修改头像</Button>
-        //         </div>
-        //       )
-        //     }
-        //   }
-        // ]
         return(
             <div>
                 <Tabs onChange={callback} tabBarExtraContent={operations}>
                     <TabPane tab="个人信息" key="1">
-                        <span>
-                            <form>
-                                <p>张三</p>
-                                <p>18896821234</p>
-                                <img src="https://img3.duitang.com/uploads/item/201605/03/20160503183705_KYdaZ.thumb.700_0.jpeg"/>
-                            </form>
-                        </span>
+                      <p>{this.state.customer.realname}</p>
+                      <p>{this.state.customer.telephone}</p>
+                      <img alt="图片找不到..." src={this.state.customer.photo}/>
                     </TabPane>
                     <TabPane tab="地址信息" key="2">
-                        <span>
-                            <p>地址列表</p>
-                            <p>收货地址</p>
-                            <p>添加地址</p>
-                        </span>
+                        {/* {JSON.stringify(this.state.address)} */}
+                        <Table 
+                          // bordered
+                          // rowKey="id"
+                          // size="small"
+                          // loading={this.state.loading}
+                          // rowSelection={rowSelection}
+                          columns={columns1}
+                          dataSource={this.state.address}/>
                     </TabPane>
                     <TabPane tab="订单信息" key="3">
-                        <span></span>
+                        {/* {JSON.stringify(this.state.orders)} */}
+                        <Table 
+                          columns={columns2}
+                          dataSource={this.state.orders}/>
                     </TabPane>
                 </Tabs>
-                {/* <Table 
-                    bordered
-                    rowKey="id"
-                    size="small"
-                    loading={this.state.loading}
-                    columns={columns}
-                    dataSource={this.state.list}/> */}
             </div>
             
         )

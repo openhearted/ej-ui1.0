@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form,Modal,Input,Select,} from 'antd'
+import {Form,Modal,Input,Select,InputNumber} from 'antd'
 
 class CategoryForm extends React.Component {
 

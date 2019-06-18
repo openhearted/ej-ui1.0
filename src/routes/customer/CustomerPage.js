@@ -122,10 +122,13 @@ class CustomerPage extends React.Component {
     this.setState({visible:true})
   }
 //顾客详情
-  customerDetail(record){
+  toDetails(record){
     console.log(record);
     //跳转
-    this.props.history.push("/customerDetails")
+    this.props.history.push({
+      pathname:"/customerDetails",
+      payload:record
+    })
   }
   //按条件查询
   query = (value)=>{
@@ -167,7 +170,7 @@ class CustomerPage extends React.Component {
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
             <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
-            <Button type='link' size="small" onClick={this.customerDetail.bind(this,record.record)}>详情</Button>
+            <Button type='link' size="small" onClick={this.toDetails.bind(this,record)}>详情</Button>
           </div>
         )
       }

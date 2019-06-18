@@ -13,7 +13,10 @@
     "dva": "^2.4.1",
     "qs": "^6.7.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.8.6",
+    "react-html-table-to-excel": "^2.0.0",
+    "react-zmage": "^0.7.5",
+    "xlsx-oc": "^1.0.2"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",

@@ -25,7 +25,7 @@ class CommentPage extends React.Component {
     // 重载数据
     reloadData(){
       this.setState({loading:true});
-      axios.get("http://129.211.69.98:8888/comment/findCommentByOrderId")
+      axios.get("http://129.211.69.98:8888/comment/query")
       .then((result)=>{
         // 将查询数据更新到state中
         this.setState({list:result.data})
@@ -103,17 +103,25 @@ class CommentPage extends React.Component {
     render(){
       // 变量定义
       let columns = [{
+        title:'订单编号',
+        align:"center",
+        dataIndex:'orderId'
+      },{
+        title:'顾客编号',
+        align:"center",
+        dataIndex:'customerId'
+      },{
+        title:'服务员编号',
+        align:"center",
+        dataIndex:'waiterId'
+      },{
         title:'内容',
         align:"center",
         dataIndex:'content'
       },{
         title:'评论时间',
         align:"center",
-        dataIndex:'comment_time'
-      },{
-        title:'订单编号',
-        align:"center",
-        dataIndex:'order_id'
+        dataIndex:'commentTime'
       },{
         title:'操作',
         width:120,
@@ -135,8 +143,8 @@ class CommentPage extends React.Component {
           })
         },
         getCheckboxProps: record => ({
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
+          disabled: record.id === 'Disabled Id', // Column configuration not to be checked
+          name: record.id,
         }),
       };
       
@@ -159,7 +167,7 @@ class CommentPage extends React.Component {
             <div className={styles.search}>
             <Search
                   placeholder="请输入..."
-                  onSearch={value => this.query.bind(this)}
+                  onSearch={value => this.query(value)}
                   style={{ width: 200 }}
               />
           </div>
