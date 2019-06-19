@@ -10,7 +10,10 @@ import ProductPage from './routes/product/ProductPage';
 import WaiterPage from './routes/waiter/WaiterPage';
 import MainPage from './routes/MainPage';
 import CustomerDetails from './routes/customer/CustomerDetail'
-// import LoginPage from './login/LoginPage'
+import CommentDetail from './routes/comment/CommentDetail'
+import WaiterDetails from './routes/waiter/WaiterDetails'
+import ProductDetails from './routes/product/ProductDetail'
+// import NormalLoginForm from './routes/login/NormalLoginForm'
 
 function RouterConfig({ history }) {
   return (
@@ -27,7 +30,10 @@ function RouterConfig({ history }) {
               <Route path="/product" exact component={ProductPage} />
               <Route path="/waiter" exact component={WaiterPage} />
               <Route path="/customerDetails" exact component={CustomerDetails} />
-              {/* <Route path="/login" exact component={LoginPage} /> */}
+              <Route path="/commentDetail" exact component={CommentDetail} />
+              <Route path="/waiterDetails" exact component={WaiterDetails} />
+              <Route path="/productDetails" exact component={ProductDetails} />
+              {/* <Route path="/NormalLoginForm" exact component={NormalLoginForm} /> */}
           </MainPage>
         </Switch>
     </Router>

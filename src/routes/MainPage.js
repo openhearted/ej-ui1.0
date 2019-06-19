@@ -20,12 +20,12 @@ class MainPage extends React.Component {
   render() {
     return (
       <Layout style={{ minHeight: '100vh'}}>
-        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}
+        <Sider theme ="light" collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}
         style={{
           opacity: 0.9,
         }}
         >
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" >
+          <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" >
             <Menu.Item key="0">
                 <Icon type="home" />
                 <span className={styles.logo}>E洁家政</span>

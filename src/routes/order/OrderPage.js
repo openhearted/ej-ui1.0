@@ -4,6 +4,7 @@ import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
 import { Link } from 'dva/router';
 import axios from '../../utils/axios'
 import OrderForm from './OrderForm'
+//导出
 import { exportExcel } from 'xlsx-oc'
 const Search = Input.Search;
 
@@ -124,6 +125,15 @@ class OrderPage extends React.Component {
       this.setState({loading:false});
     })
   }
+
+  toDetails(record){
+    console.log(record);
+    //跳转
+    this.props.history.push({
+      pathname:"/orderline",
+      payload:record
+    })
+  }
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // 变量定义
@@ -155,6 +165,7 @@ class OrderPage extends React.Component {
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
+            <Button type='link' size="small" onClick={this.toDetails.bind(this,record.id)}>详情</Button>
           </div>
         )
       }
@@ -171,25 +182,16 @@ class OrderPage extends React.Component {
         name: record.name,
       }),
     };
-    const dataSource = [{
-      key: '1',
-      cs: 'customerId',
-      sm: 'addressId',
-      lx: 'orderTime',
-      mrz: 'waiterId',
-      }
-      // , {
-      //     key: '2',
-      //     cs: 'mm',
-      //     sm: '啦啦啦啦',
-      //     lx: 'string',
-      //     mrz: '',
-      // }
+   
+    const _headers = [
+      { k: 'id', v: '编号' }, 
+      { k: 'addressId', v: '地址编号' },
+      { k: 'orderTime', v: '下单时间' }, 
+      { k: 'waiterId', v: '员工编号' }
     ];
-      const exportDefaultExcel = () => {
-        var _headers = [{ k: 'cs', v: '顾客编号' }, { k: 'sm', v: '地址编号' },
-        { k: 'lx', v: '下单时间' }, { k: 'mrz', v: '员工编号' },]
-        exportExcel(_headers, dataSource);
+        
+    const exportDefaultExcel = () => {
+      exportExcel(_headers, this.state.list);
     }
     // 返回结果 jsx(js + xml)
     return (
@@ -208,13 +210,11 @@ class OrderPage extends React.Component {
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <Button onClick={() => exportDefaultExcel()}>导出</Button>
           <div className={styles.search}>
-          <div className={styles.search}>
           <Search
                 placeholder="请输入..."
                 onSearch={value => this.query(value)}
                 style={{ width: 200 }}
           />
-          </div>
           </div>
         </div>
         <Table 

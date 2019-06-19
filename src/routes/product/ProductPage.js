@@ -8,6 +8,7 @@ import { Link } from 'dva/router';
 import axios from '../../utils/axios'
 import ProductForm from './ProductForm'
 import Zmage from 'react-zmage'
+import { exportExcel } from 'xlsx-oc'
 const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
@@ -145,6 +146,14 @@ class ProductPage extends React.Component {
     })
   }
 
+  toDetails(record){
+    console.log(record);
+    //跳转
+    this.props.history.push({
+      pathname:"/productDetails",
+      payload:record
+    })
+  }
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // const { getFieldDecorator} = this.props.form;
@@ -166,7 +175,7 @@ class ProductPage extends React.Component {
       align:"center",
       dataIndex:'categoryId'
     },{
-      title:'商品图片',
+      title:'照片',
       align:"center",
       dataIndex:'photo',
       render(text){
@@ -176,13 +185,14 @@ class ProductPage extends React.Component {
       }
     },{
       title:'操作',
-      width:120,
+      width:200,
       align:"center",
       render:(text,record)=>{
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
             <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
+            <Button type='link' size="small" onClick={this.toDetails.bind(this,record)}>详情</Button>
           </div>
         )
       }
@@ -200,6 +210,17 @@ class ProductPage extends React.Component {
       }),
     };
     
+    const _headers = [
+      { k: 'name', v: '商品名称' }, 
+      { k: 'description', v: '商品描述' },
+      { k: 'price', v: '价格' }, 
+      { k: 'categoryId', v: '所属分类' }, 
+      { k: 'photo', v: '商品图片' }, 
+    ];
+        
+    const exportDefaultExcel = () => {
+      exportExcel(_headers, this.state.list);
+    }
     // 返回结果 jsx(js + xml)
     return (      
       <div className={styles.all}>
@@ -217,6 +238,7 @@ class ProductPage extends React.Component {
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
+          <Button onClick={() => exportDefaultExcel()}>导出</Button>
           <div className={styles.search}>
           <Search
                 placeholder="请输入您想要查询的内容"

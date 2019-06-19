@@ -4,6 +4,7 @@ import {Modal,Button,Table,message,Breadcrumb,Input} from 'antd'
 import axios from '../../utils/axios'
 import WaiterForm from './WaiterForm'
 import { Link } from 'dva/router';
+import { exportExcel } from 'xlsx-oc'
 import Zmage from 'react-zmage'
 const Search = Input.Search;
 
@@ -79,7 +80,7 @@ class WaiterPage extends React.Component{
   handleCancel = () => {
     this.setState({ visible: false });
   };
-  // 确认按钮的事件处理函数
+  
   handleCreate = () => {
     const form = this.formRef.props.form;
     form.validateFields((err, values) => {
@@ -152,6 +153,13 @@ class WaiterPage extends React.Component{
     })
   }
 
+  toDetails(record){
+    this.props.history.push({
+      pathname:"/waiterDetails",
+      payload:record
+    })
+  }
+
     render(){
         let columns = [{
             title:'工号',
@@ -173,15 +181,15 @@ class WaiterPage extends React.Component{
             title:'状态',
             align:"center",
             dataIndex:'status'
-        },{
-            title:'照片',
-            align:"center",
-            dataIndex:'photo',
-            render(text){
-              return (
-                <Zmage width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
-              )
-            }
+        },,{
+          title:'照片',
+          align:"center",
+          dataIndex:'photo',
+          render(text){
+            return (
+              <Zmage width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
+            )
+          }
         },{
             title:'操作',
             width:200,
@@ -191,6 +199,7 @@ class WaiterPage extends React.Component{
                 <div>
                     <Button type='link' size="small" onClick = {this.handleDelete.bind(this,record.id)}>删除</Button>
                     <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
+                    <Button type='link' size="small" onClick={this.toDetails.bind(this,record)}>详情</Button>
                 </div>
                 )
             }
@@ -207,6 +216,17 @@ class WaiterPage extends React.Component{
               name: record.name,
             }),
           };
+
+          const _headers = [
+            { k: 'idcard', v: '工号' }, 
+            { k: 'realname', v: '姓名' },
+            { k: 'password', v: '密码' }, 
+            { k: 'telephone', v: '电话' }
+          ];
+              
+          const exportDefaultExcel = () => {
+            exportExcel(_headers, this.state.list);
+          }
           return (
             <div className={styles.all}>
               <Breadcrumb>
@@ -222,7 +242,7 @@ class WaiterPage extends React.Component{
               <div className={styles.btns}>
                 <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
                 <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-                <Button type="link">导出</Button>
+                <Button onClick={() => exportDefaultExcel()}>导出</Button>
                 <div className={styles.search}>
                 <Search
                       placeholder="请输入..."

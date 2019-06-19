@@ -4,6 +4,7 @@ import {Modal,Button, Table,message,Input,Breadcrumb,Select} from 'antd'
 import { Link } from 'dva/router';
 import axios from '../../utils/axios'
 import CategoryForm from './CategoryForm'
+import { exportExcel } from 'xlsx-oc'
 const { Option } = Select;
 const Search = Input.Search;
 
@@ -31,7 +32,9 @@ class CategoryPage extends React.Component{
         .then((result)=>{
           this.children = []
                 result.data.forEach((item) => {
+                  if(!item.parentId){
                     this.children.push(<Option key={item.id} value={item.id}>{item.name}</Option>);
+                  }
           })
           // 将查询数据更新到state中
           this.setState({list:result.data})
@@ -83,6 +86,7 @@ class CategoryPage extends React.Component{
         });
       }
 
+    
       onSelectChange = selectedRowKeys => {
         this.setState({ selectedRowKeys });
 
@@ -150,7 +154,6 @@ class CategoryPage extends React.Component{
         })
       }
 
-
       // 组件类务必要重写的方法，表示页面渲染
       render(){
         // 变量定义
@@ -197,6 +200,15 @@ class CategoryPage extends React.Component{
           }),
         };
         
+        const _headers = [
+          { k: 'id', v: '编号' }, 
+          { k: 'name', v: '分类名称' },
+          { k: 'num', v: '数量' }, 
+        ];
+            
+        const exportDefaultExcel = () => {
+          exportExcel(_headers, this.state.list);
+        }
         // 返回结果 jsx(js + xml)
         return (
           <div className={styles.all}>
@@ -213,9 +225,10 @@ class CategoryPage extends React.Component{
             <div className={styles.btns}>
               <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
               <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
+              <Button onClick={() => exportDefaultExcel()}>导出</Button>
               <div className={styles.search}>
               <Search
-                    placeholder="请输入..."
+                    placeholder="请输入..." 
                     onSearch={value => this.query(value)}
                     style={{ width: 200 }}
                 />

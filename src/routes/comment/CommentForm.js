@@ -30,6 +30,11 @@ class CommentForm extends React.Component {
           onOk={onCreate}
         >
           <Form layout="vertical" {...formLayout}>
+            <Form.Item label="订单编号">
+              {getFieldDecorator('order_id', {
+                rules: [{ required: true, message: '请输入订单编号!' }],
+              })(<Input />)}
+            </Form.Item>
             <Form.Item label="内容" >
               {getFieldDecorator('content', {
                 rules: [{ required: true, message: '请输入内容!' }],
@@ -38,11 +43,6 @@ class CommentForm extends React.Component {
             <Form.Item label="评论时间">
               {getFieldDecorator('comment_time', {
                 rules: [{ required: true, message: '请输入评论时间!' }],
-              })(<Input />)}
-            </Form.Item>
-            <Form.Item label="订单编号">
-              {getFieldDecorator('order_id', {
-                rules: [{ required: true, message: '请输入订单编号!' }],
               })(<Input />)}
             </Form.Item>
           </Form>

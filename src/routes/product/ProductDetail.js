@@ -6,7 +6,7 @@ class Order_linePage extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-          customer:{},
+          product:{},
           address:[],
           orders:[]
         }
@@ -17,27 +17,11 @@ class Order_linePage extends React.Component{
         //   console.log(JSON.stringify(this.props.location.payload))
         let payload = this.props.location.payload;
         if(payload){
-            this.setState({customer:payload})
-            this.loadAddress();
-            this.loadOrders();
+            this.setState({product:payload})
           } else {
-            this.props.history.push("/customer")
+            this.props.history.push("/product")
           }
     }
-
-    //加载地址信息
-  loadOrder(){
-    axios.get("http://129.211.69.98:8888/comment/query",{
-      params:{
-          customerId:this.props.location.payload.id
-        }
-    })
-    .then((result)=>{
-      this.setState({
-        address:result.data
-      })
-    })
-  }
    
     render(){ 
       let columns1 = [{
@@ -62,20 +46,8 @@ class Order_linePage extends React.Component{
             <div>
                 <Tabs onChange={callback} tabBarExtraContent={operations}>
                     <TabPane tab="个人信息" key="1">
-                      <p>{this.state.customer.realname}</p>
-                      <p>{this.state.customer.telephone}</p>
-                      <img alt="图片找不到..." src={"http://134.175.154.93:8888/group1/"+this.state.customer.photo}/>
-                    </TabPane>
-                    <TabPane tab="地址信息" key="2">
-                        {/* {JSON.stringify(this.state.address)} */}
-                        <Table 
-                          // bordered
-                          // rowKey="id"
-                          // size="small"
-                          // loading={this.state.loading}
-                          // rowSelection={rowSelection}
-                          columns={columns1}
-                          dataSource={this.state.address}/>
+                      {/* <p>{this.state.product.status}</p> */}
+                      <img alt="图片找不到..." src={"http://134.175.154.93:8888/group1/"+this.state.product.photo}/>
                     </TabPane>
                 </Tabs>
             </div>
