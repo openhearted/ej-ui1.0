@@ -1,9 +1,10 @@
 import React from 'react'
-import styles from './IndexPage.css'
-import {Modal,Button, Table,message} from 'antd'
-import axios from '../utils/axios'
+import styles from '../IndexPage.css'
+import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
+import { Link } from 'dva/router';
+import axios from '../../utils/axios'
 import CommentForm from './CommentForm'
-
+const Search = Input.Search;
 class CommentPage extends React.Component {
     // 局部状态state
     constructor(){
@@ -24,7 +25,7 @@ class CommentPage extends React.Component {
     // 重载数据
     reloadData(){
       this.setState({loading:true});
-      axios.get("http://129.211.69.98:8888/comment/findCommentByOrderId")
+      axios.get("http://129.211.69.98:8888/comment/query")
       .then((result)=>{
         // 将查询数据更新到state中
         this.setState({list:result.data})
@@ -102,17 +103,25 @@ class CommentPage extends React.Component {
     render(){
       // 变量定义
       let columns = [{
+        title:'订单编号',
+        align:"center",
+        dataIndex:'orderId'
+      },{
+        title:'顾客编号',
+        align:"center",
+        dataIndex:'customerId'
+      },{
+        title:'服务员编号',
+        align:"center",
+        dataIndex:'waiterId'
+      },{
         title:'内容',
         align:"center",
         dataIndex:'content'
       },{
         title:'评论时间',
         align:"center",
-        dataIndex:'comment_time'
-      },{
-        title:'订单编号',
-        align:"center",
-        dataIndex:'order_id'
+        dataIndex:'commentTime'
       },{
         title:'操作',
         width:120,
@@ -134,18 +143,34 @@ class CommentPage extends React.Component {
           })
         },
         getCheckboxProps: record => ({
-          disabled: record.name === 'Disabled User', // Column configuration not to be checked
-          name: record.name,
+          disabled: record.id === 'Disabled Id', // Column configuration not to be checked
+          name: record.id,
         }),
       };
       
       // 返回结果 jsx(js + xml)
       return (
-        <div className={styles.comment}>
-          <div className={styles.title}>评论管理</div>
+        <div className={styles.all}>
+          <Breadcrumb>
+          <Breadcrumb.Item>
+          <Link to="/">
+                <span className={styles.navitem}>主页</span>
+              </Link>
+          </Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a className={styles.href}>评论列表</a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
           <div className={styles.btns}>
             <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
             <Button type="link">导出</Button>
+            <div className={styles.search}>
+            <Search
+                  placeholder="请输入..."
+                  onSearch={value => this.query(value)}
+                  style={{ width: 200 }}
+              />
+          </div>
           </div>
           <Table 
             bordered

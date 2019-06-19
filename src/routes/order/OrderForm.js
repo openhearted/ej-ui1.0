@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form,Modal,Input,Radio} from 'antd'
 
-class ProductForm extends React.Component {
+class OrderForm extends React.Component {
 
   render(){
     const formLayout = {
@@ -23,38 +23,33 @@ class ProductForm extends React.Component {
     return (
       <Modal
           visible={visible}
-          title="添加商品信息"
+          title="添加订单信息"
           okText="提交"
           cancelText="取消"
           onCancel={onCancel}
           onOk={onCreate}
         >
           <Form layout="vertical" {...formLayout}>
-            <Form.Item label="商品名称" >
-              {getFieldDecorator('name', {
-                rules: [{ required: true, message: '请输入商品名称!' }],
+            <Form.Item label="顾客编号" >
+              {getFieldDecorator('customer_id', {
+                rules: [{ required: true, message: '请输入顾客编号!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="商品描述">
-              {getFieldDecorator('description', {
-                rules: [{ required: true, message: '请输入商品描述!' }],
+            <Form.Item label="地址编号">
+              {getFieldDecorator('address_id', {
+                rules: [{ required: true, message: '请输入地址编号!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="商品价格">
-              {getFieldDecorator('price', {
-                rules: [{ required: true, message: '请输入商品价格!' }],
+            <Form.Item label="员工编号">
+              {getFieldDecorator('waiter_id', {
+                rules: [{ required: true, message: '请输入员工编号!' }],
               })(<Input />)}
             </Form.Item>
-            <Form.Item label="商品图片">
-                {getFieldDecorator('photo', {
-                  rules: [{ required: true, message: '请添加商品图片!' }],
-                })(<Input />)}
-              </Form.Item>
-            <Form.Item label="状态">
-              {getFieldDecorator('status', {
-                rules: [{ required: true, message: '请输入状态值!' }],
-              })(<Input />)}
-            </Form.Item>   
+            <Form.Item label="下单时间">
+              {getFieldDecorator('order_time', {
+                rules: [{ required: true, message: '请输入下单时间!' }],
+              })(<Input/>)}
+            </Form.Item>
           </Form>
         </Modal>
     );
@@ -73,4 +68,4 @@ const mapPropsToFields = (props)=>{
 
 export default Form.create({
   mapPropsToFields
-})(ProductForm);
+})(OrderForm);

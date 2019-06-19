@@ -1,12 +1,13 @@
 import React from 'react';
 // 引入css进行页面美化
-import styles from './IndexPage.css'
+import styles from '../IndexPage.css'
 // 导入组件
 // 导入组件
-import {Modal,Button, Table,message} from 'antd'
-import axios from '../utils/axios'
+import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
+import { Link } from 'dva/router';
+import axios from '../../utils/axios'
 import CustomerForm from './CustomerForm'
-
+const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
 class CustomerPage extends React.Component {
@@ -120,7 +121,31 @@ class CustomerPage extends React.Component {
     // 将record值绑定表单中
     this.setState({visible:true})
   }
-
+//顾客详情
+  toDetails(record){
+    console.log(record);
+    //跳转
+    this.props.history.push({
+      pathname:"/customerDetails",
+      payload:record
+    })
+  }
+  //按条件查询
+  query = (value)=>{
+    this.setState({loading:true});
+    axios.get("http://129.211.69.98:8888/customer/queryCustomer",{
+      params:{
+        realname: value,
+      }
+    })
+    .then((result)=>{
+      // 将查询数据更新到state中
+      this.setState({list:result.data})
+    })
+    .finally(()=>{
+      this.setState({loading:false});
+    })
+  }
   // 组件类务必要重写的方法，表示页面渲染
   render(){
     // 变量定义
@@ -133,18 +158,19 @@ class CustomerPage extends React.Component {
       align:"center",
       dataIndex:'telephone'
     },{
-      title:'状态',
+      title:'密码',
       align:"center",
-      dataIndex:'status'
+      dataIndex:'password'
     },{
       title:'操作',
-      width:120,
+      width:200,
       align:"center",
       render:(text,record)=>{
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
             <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
+            <Button type='link' size="small" onClick={this.toDetails.bind(this,record)}>详情</Button>
           </div>
         )
       }
@@ -164,12 +190,30 @@ class CustomerPage extends React.Component {
     
     // 返回结果 jsx(js + xml)
     return (
-      <div className={styles.customer}>
-        <div className={styles.title}>顾客管理</div>
+      <div className={styles.all}>
+        {/* <div className={styles.title}>顾客管理</div> */}
+        {/* 面包屑导航栏 */}        
+        <Breadcrumb className={styles.breadcrumb}>
+          <Breadcrumb.Item>
+          <Link to="/">
+                <span className={styles.navitem}>主页</span>
+              </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a className={styles.href}>顾客列表</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
           <Button type="link">导出</Button>
+          <div className={styles.search}>
+          <Search
+                placeholder="请输入..."
+                onSearch={value => this.query(value)}
+                style={{ width: 200 }}
+            />
+          </div>
         </div>
         <Table 
           bordered

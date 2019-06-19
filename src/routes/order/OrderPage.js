@@ -1,15 +1,14 @@
 import React from 'react';
-// 引入css进行页面美化
-import styles from './IndexPage.css'
-// 导入组件
-// 导入组件
-import {Form,Modal,Button, Input,Table,message} from 'antd'
-import axios from '../utils/axios'
-import ProductForm from './ProductForm'
-
+import styles from '../IndexPage.css'
+import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
+import { Link } from 'dva/router';
+import axios from '../../utils/axios'
+import OrderForm from './OrderForm'
+import { exportExcel } from 'xlsx-oc'
+const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
-class ProductPage extends React.Component {
+class OrderPage extends React.Component {
   // 局部状态state
   constructor(){
     super();
@@ -18,7 +17,7 @@ class ProductPage extends React.Component {
       list:[],
       loading:false,
       visible:false,
-      product:{}
+      order:{}
     }
   }
   // 在生命周期钩子函数中调用重载数据
@@ -29,7 +28,7 @@ class ProductPage extends React.Component {
   // 重载数据
   reloadData(){
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/product/findAllProduct")
+    axios.get("http://129.211.69.98:8888/order/findAllOrder")
     .then((result)=>{
       // 将查询数据更新到state中
       this.setState({list:result.data})
@@ -41,13 +40,13 @@ class ProductPage extends React.Component {
   // 批量删除
   handleBatchDelete(){
     Modal.confirm({
-      title: '确定删除这些商品吗?',
+      title: '确定删除这些记录吗?',
       content: '一旦删除数据将无法恢复',
       okText: '确定',
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
-        axios.post("http://129.211.69.98:8888/product/deleteBathProduct",{ids:this.state.ids})
+        axios.post("http://129.211.69.98:8888/order/batchDeleteOrder",{ids:this.state.ids})
         .then((result)=>{
           //批量删除后重载数据
           message.success(result.statusText)
@@ -60,14 +59,14 @@ class ProductPage extends React.Component {
   // 单个删除
   handleDelete(id){
     Modal.confirm({
-      title: '确定删除这件商品吗?',
+      title: '确定删除这条记录吗?',
       content: '一旦删除数据将无法恢复',
       okText: '确定',
       okType: 'danger',
       cancelText: '取消',
       onOk:() => {
         // 删除操作
-        axios.get("http://129.211.69.98:8888/product/deleteProductById",{
+        axios.get("http://129.211.69.98:8888/order/deleteOrderById",{
           params:{
             id:id
           }
@@ -93,18 +92,12 @@ class ProductPage extends React.Component {
         return;
       }
       // 表单校验完成后与后台通信进行保存
-      axios.post("http://129.211.69.98:8888/product/insertProduct",values)
+      axios.post("http://129.211.69.98:8888/order/insertOrder",values)
       .then((result)=>{
         message.success(result.statusText)
         // 重置表单
         form.resetFields();
         // 关闭模态框
-        this.setState({ visible: false });
-        this.reloadData();
-      })
-      axios.post("http://129.211.69.98:8888/product/updateProduct",values)
-      .then((result)=>{
-        message.success(result.statusText)
         this.setState({ visible: false });
         this.reloadData();
       })
@@ -114,24 +107,13 @@ class ProductPage extends React.Component {
   saveFormRef = formRef => {
     this.formRef = formRef;
   };
-  // 去添加
-  toAdd(){
-    // 将默认值置空,模态框打开
-    this.setState({product:{},visible:true})
-  }
-  // 去更新
-  toEdit(record){
-    // 更前先先把要更新的数据设置到state中
-    this.setState({product:record})
-    // 将record值绑定表单中
-    this.setState({visible:true})
-  }
 
-  queryId(id){
+  //模糊查询
+  query = (value) =>{
     this.setState({loading:true});
-    axios.get("http://129.211.69.98:8888/product/findProductByCategoryId",{
+    axios.get("http://129.211.69.98:8888/order/queryOrder",{
       params:{
-        id:id
+        id: value,
       }
     })
     .then((result)=>{
@@ -142,31 +124,29 @@ class ProductPage extends React.Component {
       this.setState({loading:false});
     })
   }
-
   // 组件类务必要重写的方法，表示页面渲染
   render(){
-    // const { getFieldDecorator} = this.props.form;
     // 变量定义
     let columns = [{
-      title:'商品名称',
+      title:'顾客编号',
       align:"center",
-      dataIndex:'name'
+      dataIndex:'customerId'
     },{
-      title:'商品描述',
+      title:'地址编号',
       align:"center",
-      dataIndex:'description'
+      dataIndex:'addressId'
     },{
-      title:'价格',
+      title:'下单时间',
       align:"center",
-      dataIndex:'price'
+      dataIndex:'orderTime'
     },{
-      title:'状态',
+      title:'员工编号',
       align:"center",
-      dataIndex:'status'
+      dataIndex:'waiterId'
     },{
-      title:'商品图片',
+      title:'总计个数',
       align:"center",
-      dataIndex:'photo'
+      dataIndex:'total'
     },{
       title:'操作',
       width:120,
@@ -175,7 +155,6 @@ class ProductPage extends React.Component {
         return (
           <div>
             <Button type='link' size="small" onClick={this.handleDelete.bind(this,record.id)}>删除</Button>
-            <Button type='link' size="small" onClick={this.toEdit.bind(this,record)}>修改</Button>
           </div>
         )
       }
@@ -192,23 +171,51 @@ class ProductPage extends React.Component {
         name: record.name,
       }),
     };
-    
+    const dataSource = [{
+      key: '1',
+      cs: 'customerId',
+      sm: 'addressId',
+      lx: 'orderTime',
+      mrz: 'waiterId',
+      }
+      // , {
+      //     key: '2',
+      //     cs: 'mm',
+      //     sm: '啦啦啦啦',
+      //     lx: 'string',
+      //     mrz: '',
+      // }
+    ];
+      const exportDefaultExcel = () => {
+        var _headers = [{ k: 'cs', v: '顾客编号' }, { k: 'sm', v: '地址编号' },
+        { k: 'lx', v: '下单时间' }, { k: 'mrz', v: '员工编号' },]
+        exportExcel(_headers, dataSource);
+    }
     // 返回结果 jsx(js + xml)
-    return (      
-      <div className={styles.product}>
-        <div className={styles.title}>商品管理</div>
+    return (
+      <div className={styles.all}>
+          <Breadcrumb>
+          <Breadcrumb.Item>
+          <Link to="/">
+                <span className={styles.navitem}>主页</span>
+              </Link>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a className={styles.href}>订单管理</a>
+          </Breadcrumb.Item>
+        </Breadcrumb>
         <div className={styles.btns}>
-          <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-          {/* <Form onSubmit={this.handleSubmit} className="login-form">
-            <Form.Item>
-              {getFieldDecorator('id', {
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(<Input />)}
-            </Form.Item>
-          </Form> */}
-          
-            <Button onClick={this.queryId.bind(this)}>查询</Button>
+          <Button onClick={() => exportDefaultExcel()}>导出</Button>
+          <div className={styles.search}>
+          <div className={styles.search}>
+          <Search
+                placeholder="请输入..."
+                onSearch={value => this.query(value)}
+                style={{ width: 200 }}
+          />
+          </div>
+          </div>
         </div>
         <Table 
           bordered
@@ -219,8 +226,8 @@ class ProductPage extends React.Component {
           columns={columns}
           dataSource={this.state.list}/>
 
-        <ProductForm
-          initData={this.state.product}
+        <OrderForm
+          initData={this.state.order}
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
           onCancel={this.handleCancel}
@@ -230,4 +237,4 @@ class ProductPage extends React.Component {
   }
 }
 
-export default ProductPage;
+export default OrderPage;
