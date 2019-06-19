@@ -7,6 +7,8 @@ import {Modal,Button, Table,message,Breadcrumb,Input} from 'antd'
 import { Link } from 'dva/router';
 import axios from '../../utils/axios'
 import CustomerForm from './CustomerForm'
+import { exportExcel } from 'xlsx-oc'
+import Zmage from 'react-zmage'
 const Search = Input.Search;
 
 // 组件类必须要继承React.Component，是一个模块，顾客管理子功能
@@ -26,7 +28,6 @@ class CustomerPage extends React.Component {
   componentDidMount(){
     this.reloadData();
   }
-
   // 重载数据
   reloadData(){
     this.setState({loading:true});
@@ -162,6 +163,15 @@ class CustomerPage extends React.Component {
       align:"center",
       dataIndex:'password'
     },{
+      title:'照片',
+      align:"center",
+      dataIndex:'photo',
+      render(text){
+        return (
+          <Zmage width={40} height={40} src={"http://134.175.154.93:8888/group1/"+text}/>
+        )
+      }
+    },{
       title:'操作',
       width:200,
       align:"center",
@@ -188,6 +198,15 @@ class CustomerPage extends React.Component {
       }),
     };
     
+    const _headers = [
+      { k: 'realname', v: '姓名' }, 
+      { k: 'telephone', v: '手机号' },
+      { k: 'password', v: '密码' }, 
+    ];
+        
+    const exportDefaultExcel = () => {
+      exportExcel(_headers, this.state.list);
+    }
     // 返回结果 jsx(js + xml)
     return (
       <div className={styles.all}>
@@ -206,7 +225,7 @@ class CustomerPage extends React.Component {
         <div className={styles.btns}>
           <Button onClick={this.toAdd.bind(this)}>添加</Button> &nbsp;
           <Button onClick={this.handleBatchDelete.bind(this)}>批量删除</Button> &nbsp;
-          <Button type="link">导出</Button>
+          <Button onClick={() => exportDefaultExcel()}>导出</Button>
           <div className={styles.search}>
           <Search
                 placeholder="请输入..."

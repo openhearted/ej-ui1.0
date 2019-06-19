@@ -1,5 +1,6 @@
 import React from 'react';
-import { Tabs, Button,Table } from 'antd';
+import styles from '../IndexPage.css'
+import { Tabs, Button,Table,Col,Avatar, Card ,} from 'antd';
 import axios from '../../utils/axios'
 
 
@@ -50,14 +51,9 @@ class CustomerDetail extends React.Component{
       })
     })
   }
-// 修改头像
-    modifyphoto(){
-
-    }
 
     render(){
-
-      
+   
       let columns1 = [{
         title:'省份',
         align:"center",
@@ -101,9 +97,14 @@ class CustomerDetail extends React.Component{
             <div>
                 <Tabs onChange={callback} tabBarExtraContent={operations}>
                     <TabPane tab="个人信息" key="1">
-                      <p>{this.state.customer.realname}</p>
-                      <p>{this.state.customer.telephone}</p>
-                      <img alt="图片找不到..." src={this.state.customer.photo}/>
+                      <Card title="员工照片" style={{ width: 300 }}>
+                            <Avatar className="styles.photo" size={150} icon="user" src={"http://134.175.154.93:8888/group1/"+this.state.customer.photo} style={{
+                                margin: '0 auto'
+                            }} />
+                            
+                            <p style={{ marginTop: '20px' }}> 姓名：{this.state.customer.realname}</p>
+                            <p>电话：{this.state.customer.telephone}</p>
+                      </Card>
                     </TabPane>
                     <TabPane tab="地址信息" key="2">
                         {/* {JSON.stringify(this.state.address)} */}
