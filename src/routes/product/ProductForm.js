@@ -66,7 +66,7 @@ class ProductForm extends React.Component {
     return (
       <Modal
           visible={visible}
-          title="添加商品信息"
+          title="更新商品信息"
           okText="提交"
           cancelText="取消"
           onCancel={onCancel}

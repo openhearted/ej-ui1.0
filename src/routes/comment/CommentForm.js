@@ -23,7 +23,7 @@ class CommentForm extends React.Component {
     return (
       <Modal
           visible={visible}
-          title="添加评论信息"
+          title="更新评论信息"
           okText="提交"
           cancelText="取消"
           onCancel={onCancel}

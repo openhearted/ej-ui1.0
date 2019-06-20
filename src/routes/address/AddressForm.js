@@ -22,7 +22,7 @@ class AddressForm extends React.Component {
     return (
       <Modal
           visible={visible}
-          title="添加地址信息"
+          title="更新地址信息"
           okText="提交"
           cancelText="取消"
           onCancel={onCancel}
